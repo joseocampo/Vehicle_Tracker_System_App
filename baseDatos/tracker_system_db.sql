@@ -6,6 +6,7 @@
 -- Tiempo de generación: 06-11-2018 a las 07:54:27
 -- Versión del servidor: 5.7.17-log
 -- Versión de PHP: 5.6.30
+--en repo
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
