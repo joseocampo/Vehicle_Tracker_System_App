@@ -356,7 +356,7 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
         for (int i = 0; i < my_Points.size() - 1; i++) {
             mMap.addPolyline(new PolylineOptions().width(20)
                     .add(my_Points.get(i))
-                    .add(my_Points.get(i + 1)).width(5).color(Color.BLACK));
+                    .add(my_Points.get(i + 1)).width(5).color(Color.BLUE));
         }
 
     }
