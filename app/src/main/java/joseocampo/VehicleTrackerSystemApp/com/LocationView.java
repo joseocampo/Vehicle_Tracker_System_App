@@ -61,7 +61,7 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
     private MarkerOptions myMarker;
     private double latitude, longitude;
     private ImageView image_terminar;
-    private ArrayList<LatLng> milista = new ArrayList<>();
+    private ArrayList<LatLng> my_Points = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -327,7 +327,7 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
         myMarker = new MarkerOptions().position(myLocation).title("Mi ubicacion: " + myLocation.latitude + " " + myLocation.longitude).icon(BitmapDescriptorFactory.fromResource(R.drawable.car3));
 
         mMap.addMarker(myMarker);
-        milista.add(myLocation);
+        my_Points.add(myLocation);
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
         //activamos los botones de zomm en el mapa.
@@ -345,7 +345,7 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
     public void setCurrentLocation(double x, double y) {
         LatLng myLocation = new LatLng(x, y);
         myMarker.position(myLocation);
-        milista.add(myLocation);
+        my_Points.add(myLocation);
 
         mMap.addMarker(new MarkerOptions().position(myLocation).title("Mi ubicacion" + x + " " + y).icon(BitmapDescriptorFactory.fromResource(R.drawable.mark)));
         drawRoute();
@@ -353,10 +353,10 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
 
     private void drawRoute() {
 
-        for (int i = 0; i < milista.size() - 1; i++) {
+        for (int i = 0; i < my_Points.size() - 1; i++) {
             mMap.addPolyline(new PolylineOptions().width(20)
-                    .add(milista.get(i))
-                    .add(milista.get(i + 1)).width(5).color(Color.BLACK));
+                    .add(my_Points.get(i))
+                    .add(my_Points.get(i + 1)).width(5).color(Color.BLACK));
         }
 
     }
