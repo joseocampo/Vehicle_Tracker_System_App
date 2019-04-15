@@ -238,12 +238,12 @@ public class RoutesRequests extends AppCompatActivity
             ExpandObjects ObjetoActual = loansItemView.get(position);
             // Fill the view
             ImageView imageView = (ImageView) itemView.findViewById(R.id.ivdibujo);
-            imageView.setImageResource(ObjetoActual.getNumDibujo1());
+            imageView.setImageResource(ObjetoActual.getNumDraw1());
             TextView elatributo01 = (TextView) itemView.findViewById(R.id.paraelatributo01);
-            elatributo01.setText(ObjetoActual.getAtributo01());
+            elatributo01.setText(ObjetoActual.getAtributte01());
 
             ImageView imageView2 = (ImageView) itemView.findViewById(R.id.ivdibujo2);
-            imageView2.setImageResource(ObjetoActual.getNumDibujo2());
+            imageView2.setImageResource(ObjetoActual.getNumDraw2());
             imageView2.setOnClickListener(new ButtonsOnClickListener(getContext()));
 
             return itemView;

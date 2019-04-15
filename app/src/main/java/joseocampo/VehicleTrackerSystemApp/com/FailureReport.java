@@ -1,4 +1,5 @@
 package joseocampo.VehicleTrackerSystemApp.com;
+
 import java.util.Calendar;
 
 import android.graphics.BitmapFactory;
@@ -37,7 +38,6 @@ public class FailureReport extends AppCompatActivity implements Response.ErrorLi
     private String userId;
     private String userName;
     private String userSurname;
-    //private String loan;
 
     private EditText damageType_et, damageDetails_et, incidentDetails_et;
     private TextView user_tv;
@@ -45,40 +45,40 @@ public class FailureReport extends AppCompatActivity implements Response.ErrorLi
     private JsonArrayRequest jsonArrayRequest;
     private RequestQueue request;
 
-    private Spinner lista;
+    private Spinner list;
 
-    private static String idSolicitud = "consulta";
+    private static String idrequest = "consulta";
     private String[] vehicles = {"Selecciona un vehículo"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_failure_report);
-        getSupportActionBar().setBackgroundDrawable(
-                new BitmapDrawable(BitmapFactory.decodeResource(getResources(), R.drawable.fondos)));
+        getSupportActionBar().setBackgroundDrawable(new BitmapDrawable(BitmapFactory.decodeResource(getResources(), R.drawable.fondos)));
+
         getSupportActionBar().setTitle("Reporte de averías");
 
         Bundle bundle = getIntent().getExtras();
 
         if (bundle != null) {
             userId = bundle.getString("usuario");
-            userName= bundle.getString("name");
+            userName = bundle.getString("name");
             userSurname = bundle.getString("surname");
 
             Toast.makeText(getApplicationContext(), " usuario: " + userName, Toast.LENGTH_LONG).show();
         }
 
-        lista = findViewById(R.id.vehicleList);
+        list = findViewById(R.id.vehicleList);
 
         save_failure = (ImageView) findViewById(R.id.save_failure);
-        exit_btn=findViewById(R.id.btnExit);
+        exit_btn = findViewById(R.id.btnExit);
 
         damageType_et = findViewById(R.id.et_damageType);
         damageDetails_et = findViewById(R.id.et_damageDetails);
         incidentDetails_et = findViewById(R.id.et_incidentDetails);
 
         user_tv = findViewById(R.id.userRequest);
-        user_tv.setText("Usuario actual: "+userName+" "+userSurname);
+        user_tv.setText("Usuario actual: " + userName + " " + userSurname);
 
         loadVehicles();
 
@@ -97,77 +97,68 @@ public class FailureReport extends AppCompatActivity implements Response.ErrorLi
         });
     }
 
-    public String getPlate(String cadena) {
-        char[] auxilar = cadena.toCharArray();
+//------------------------------load the vehicles for the list----------------------------------------------------------//
+
+    public String getPlate(String string) {
+        char[] aux = string.toCharArray();
         String plate = "";
-        for (int i = 0; i < auxilar.length; i++) {
-            if (auxilar[i] == ' ') {
+        for (int i = 0; i < aux.length; i++) {
+            if (aux[i] == ' ') {
                 return plate;
             } else {
-                plate += auxilar[i];
+                plate += aux[i];
             }
         }
         return plate;
-
     }
 
     public void loadVehicles() {
 
-
         String url = "http://vtsmsph.com/loadVehicles.php?" + "user=david";
-
         url.replace(" ", "%20");
 
-
         jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, this, this);
-
         request = Volley.newRequestQueue(getApplicationContext());
-
         request.add(jsonArrayRequest);
-
 
     }
 
+//----------------------------------------------------------------------------------------------------------------//
+
     private void saveFailure() {
-        //Toast.makeText(getApplicationContext(), "Conectarse a la bd ", Toast.LENGTH_LONG).show();
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String fecha = simpleDateFormat.format(new Date());
-
+        String date = simpleDateFormat.format(new Date());
 
         String URL = "http://vtsmsph.com/incidentsReport.php?user=david"
-                + "&incident_date=" + fecha
+                + "&incident_date=" + date
                 + "&damage_details=" + damageDetails_et.getText().toString()
                 + "&identification=" + userId
-                + "&vehicle=" + getPlate(lista.getSelectedItem().toString())
+                + "&vehicle=" + getPlate(list.getSelectedItem().toString())
                 + "&damage_type=" + damageType_et.getText().toString()
                 + "&incident_details=" + incidentDetails_et.getText().toString();
 
 
-
         URL.replace(" ", "%20");
-        idSolicitud = "solicitud";
+        idrequest = "solicitud";
         jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, URL, null, this, this);
 
         request = Volley.newRequestQueue(getApplicationContext());
         request.add(jsonArrayRequest);
-
     }
 
 
     @Override
-    public void onErrorResponse(VolleyError error) {
-
-    }
+    public void onErrorResponse(VolleyError error) {}
 
     @Override
     public void onResponse(JSONArray response) {
 
-//----------------------------------------------------------------------------------------------------------------------------------------------//
+//------------------------------------------------Checks if the report is saved successfully---------------------------------------------------------------------//
 
         try {
 
-            if (idSolicitud.equals("solicitud")) {
+            if (idrequest.equals("solicitud")) {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject = response.getJSONObject(0);
 
@@ -200,7 +191,7 @@ public class FailureReport extends AppCompatActivity implements Response.ErrorLi
                 }
 
                 ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, vehicles);
-                lista.setAdapter(adaptador);
+                list.setAdapter(adaptador);
 
             }
         } catch (JSONException e) {

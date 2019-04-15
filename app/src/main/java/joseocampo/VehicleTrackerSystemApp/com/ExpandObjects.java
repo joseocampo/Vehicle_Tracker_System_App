@@ -1,27 +1,27 @@
 package joseocampo.VehicleTrackerSystemApp.com;
 public class ExpandObjects {
-    private String atributo01;
-    private String atributo02;
-    private int NumDibujo1,NumDibujo2;
-    public ExpandObjects(String atributo01, String atributo02, int NumDibujo1,int NumDibujo2 ){
+    private String atributte01;
+    private String atributte02;
+    private int NumDraw1,NumDraw2;
+    public ExpandObjects(String atributte01, String atributte02, int NumDraw1,int NumDraw2 ){
         super();
-        this.atributo01 = atributo01;
-        this.atributo02 = atributo02;
-        this.NumDibujo1 = NumDibujo1;
-        this.NumDibujo2 = NumDibujo2;
+        this.atributte01 = atributte01;
+        this.atributte02 = atributte02;
+        this.NumDraw1 = NumDraw1;
+        this.NumDraw2 = NumDraw2;
 
     }
-    public String getAtributo01() {
-        return atributo01;
+    public String getAtributte01() {
+        return atributte01;
     }
-    public String getAtributo02() {
-        return atributo02;
+    public String getAtributte02() {
+        return atributte02;
     }
-    public int getNumDibujo1() {
-        return NumDibujo1;
+    public int getNumDraw1() {
+        return NumDraw1;
     }
-    public int getNumDibujo2() {
-        return NumDibujo2;
+    public int getNumDraw2() {
+        return NumDraw2;
     }
 
 }

@@ -51,7 +51,7 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/campoDestino"
+                android:id="@+id/destinyField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -73,7 +73,7 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/campoJustificacion"
+                android:id="@+id/justificationField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
@@ -132,7 +132,7 @@
                 android:textAllCaps="false" />
 
             <Button
-                android:id="@+id/btnRealizarSolicitud"
+                android:id="@+id/btnMakeRequest"
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
                 android:background="@drawable/fondos"
