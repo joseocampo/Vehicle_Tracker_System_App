@@ -147,7 +147,9 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
         LocationListener locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
+                
                 sendData(vehicle+";"+location.getLatitude()+";"+location.getLongitude());
+
                 //Format: VehiclePlate;Latitud;Longitud
                 setDirection(location);
             }
@@ -164,6 +166,10 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
             public void onProviderDisabled(String provider) {
             }
         };
+
+        permissionCheck = ContextCompat.checkSelfPermission(getApplicationContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
     }
 
     public void sendData(String message) {
@@ -363,9 +369,9 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
         protected Void doInBackground(String... voids) {
             try{
                 String message = voids[0];
-                socket = new Socket("192.168.0.3",6000);
+                socket = new Socket("192.168.0.14",6000);
                 writer = new PrintWriter(socket.getOutputStream());
-                writer.write(message.toString());
+                writer.write(message);
                 writer.flush();
                 writer.close();
             }catch(IOException e){
