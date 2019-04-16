@@ -285,7 +285,19 @@ public class RoutesRequests extends AppCompatActivity
 
             startActivity(intent);
         }
-
+ /*r.append(getConsecutive()+" - Destino: " + getDetails());
+        r.append("\n");
+        r.append("Vehículo: " + getVehicle());
+        r.append("\n");
+        r.append("Justificación: " + getJustification());
+        r.append("\n");
+        r.append("Hora Inicio: " + getBeginHour());
+        r.append("   ");
+        r.append("Hora Final: " + getEndHour());
+        r.append("\n");
+        r.append("\n");
+        r.append("Usuario a cargo del vehículo: " + getUser());
+        r.append("\n");*/
         public String loanNumber(String cadena) {
             char[] auxilar = cadena.toCharArray();
             String plate = "";
