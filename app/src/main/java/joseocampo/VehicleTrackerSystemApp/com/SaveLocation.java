@@ -77,7 +77,6 @@ public class SaveLocation extends AppCompatActivity
                 LocationManager locationManager =
                         (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
-                // Toast.makeText(getBaseContext(),"Hola",Toast.LENGTH_LONG).show();
                 final boolean gpsActivado = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
                 if (!gpsActivado) {
 

@@ -52,20 +52,18 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
         Response.ErrorListener, Response.Listener<JSONObject> {
 
     private GoogleMap mMap;
-    private Button btnGPS, btnNormal, btnHybrid, btnLand, btnSatelital;
+    private Button btnNormal, btnHybrid, btnLand, btnSatelital;
     private RequestQueue request;
     private JsonObjectRequest jsonObjectRequest;
     private String street = "";
 
     private String vehicle = "";
-    private TextView txtDireccion, txtCoordenadas;
     private int loanNumber;
     private String userId;
     private String userLoginName;
     private String userLoginSurname;
     private MarkerOptions myMarker;
-    //private double latitude, longitude;
-    private ImageView image_terminar;
+    private ImageView finish_image;
     private ArrayList<LatLng> my_Points = new ArrayList<>();
 
     @Override
@@ -81,7 +79,7 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
         btnHybrid = (Button) findViewById(R.id.btnHybrid);
         btnLand = (Button) findViewById(R.id.btn_land);
         btnSatelital = (Button) findViewById(R.id.btnSatelital);
-        image_terminar = (ImageView) findViewById(R.id.image_terminar);
+        finish_image = (ImageView) findViewById(R.id.finish_image);
 
         addEvents();
 
@@ -140,7 +138,6 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
                     Toast.makeText(getApplicationContext(), "La aplicacion no funciona sin GPS", Toast.LENGTH_SHORT).show();
                 }
             });
-
             builder.show();
         }
 
@@ -267,25 +264,29 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
                 changeTypeHybrid();
             }
         });
+
         btnNormal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeTypeNormal();
             }
         });
+
         btnLand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeTypeLand();
             }
         });
+
         btnSatelital.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeTypeSatelital();
             }
         });
-        image_terminar.setOnClickListener(new View.OnClickListener() {
+
+        finish_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 failureReport();
@@ -295,7 +296,7 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
 
     private void finishTravel() {
 
-        Intent intent = new Intent(getApplicationContext(), FailureReport.class);
+        Intent intent = new Intent(getApplicationContext(), PantallaPrincipal.class);
         intent.putExtra("usuario", userId);
         intent.putExtra("name", userLoginName);
         intent.putExtra("surname", userLoginSurname);
@@ -342,7 +343,6 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
                     .add(my_Points.get(i))
                     .add(my_Points.get(i + 1)).width(5).color(Color.BLUE));
         }
-
     }
 
     @Override

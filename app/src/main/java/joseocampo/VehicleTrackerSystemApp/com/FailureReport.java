@@ -2,6 +2,7 @@ package joseocampo.VehicleTrackerSystemApp.com;
 
 import java.util.Calendar;
 
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
@@ -86,6 +87,11 @@ public class FailureReport extends AppCompatActivity implements Response.ErrorLi
             @Override
             public void onClick(View v) {
                 finish();
+                Intent home = new Intent(getApplicationContext(), PantallaPrincipal.class);
+                home.putExtra("usuario", userId);
+                home.putExtra("name", userName);
+                home.putExtra("surname", userSurname);
+                startActivity(home);
             }
         });
 

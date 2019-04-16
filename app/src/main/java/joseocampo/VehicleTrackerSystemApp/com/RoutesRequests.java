@@ -39,7 +39,6 @@ import java.util.List;
 
 public class RoutesRequests extends AppCompatActivity implements Response.ErrorListener, Response.Listener<JSONArray> {
 
-    private LinearLayout layoutCards;
     private RequestQueue requestQueue;
     private JsonArrayRequest jsonArrayRequest;
     private ArrayList<Loan> myLoans;
@@ -65,7 +64,6 @@ public class RoutesRequests extends AppCompatActivity implements Response.ErrorL
             Toast.makeText(getApplicationContext(), "Usuario: " + userId, Toast.LENGTH_SHORT).show();
         }
 
-        layoutCards = (LinearLayout) findViewById(R.id.layoutCards);
         myLoans = new ArrayList<>();
         loansItemView = new ArrayList<ExpandObjects>();
 
@@ -162,7 +160,6 @@ public class RoutesRequests extends AppCompatActivity implements Response.ErrorL
             linearLayoutComponents.addView(button);
 
             cardView.addView(linearLayoutComponents);
-            layoutCards.addView(cardView);
         }
     }
 
@@ -236,9 +233,6 @@ public class RoutesRequests extends AppCompatActivity implements Response.ErrorL
             ConstraintLayout constraintLayout = (ConstraintLayout) imageView.getParent();
             TextView textView = (TextView) constraintLayout.getChildAt(1);
 
-
-
-
             int loanNumber = Integer.parseInt(loanNumber(textView.getText().toString()));
 
             String url = "http://vtsmsph.com/changeStatus.php?user=david" + "&route=" + loanNumber + "&state=1";
@@ -253,30 +247,12 @@ public class RoutesRequests extends AppCompatActivity implements Response.ErrorL
             intent.putExtra("name", userName);
             intent.putExtra("surname", userSurname);
             intent.putExtra("loanNumber", loanNumber);
-            //intent.putExtra("vehiclePlaque",pla);
 
             startActivity(intent);
         }
 
- /*r.append(getConsecutive()+" - Destino: " + getDetails());
-        r.append("\n");
-        r.append("Vehículo: " + getVehicle());
-        r.append("\n");
-        r.append("Justificación: " + getJustification());
-        r.append("\n");
-        r.append("Hora Inicio: " + getBeginHour());
-        r.append("   ");
-        r.append("Hora Final: " + getEndHour());
-        r.append("\n");
-        r.append("\n");
-        r.append("Usuario a cargo del vehículo: " + getUser());
-        r.append("\n");*/
-
-
-
         public String loanNumber(String string) {
             char[] aux = string.toCharArray();
-
             String plate = "";
             for (int i = 0; i < aux.length; i++) {
                 if (aux[i] == ' ') {
