@@ -12,6 +12,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -41,6 +42,8 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -53,6 +56,7 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
     private RequestQueue request;
     private JsonObjectRequest jsonObjectRequest;
     private String street = "";
+    private String vehicle = "";
     private TextView txtDireccion, txtCoordenadas;
     private int loanNumber;
     private String userId;
@@ -88,7 +92,7 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
             userLoginName= bundle.getString("name");
             userLoginSurname= bundle.getString("surname");
             loanNumber = bundle.getInt("loanNumber");
-
+            vehicle = bundle.getString("vehiclePlaque");
 
             Toast.makeText(getApplicationContext(), " usuario: " + userId + " LoanNumber: " + loanNumber, Toast.LENGTH_LONG).show();
         }
@@ -152,6 +156,8 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
         LocationListener locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
+                sendData(vehicle+";"+location.getLatitude()+";"+location.getLongitude());
+                //Format: VehiclePlate;Latitud;Longitud
                 setDirection(location);
             }
 
@@ -172,6 +178,13 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
         permissionCheck = ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
+    }
+
+    public void sendData(String message) {
+
+        BackgroundTask bt = new BackgroundTask();
+        bt.execute(message);
 
     }
 
@@ -369,5 +382,25 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onResponse(JSONObject response) {
         Toast.makeText(getApplicationContext(), "Response " + response.toString(), Toast.LENGTH_LONG).show();
+    }
+
+
+    class BackgroundTask extends AsyncTask<String,Void,Void> {
+        PrintWriter writer;
+        Socket socket;
+        @Override
+        protected Void doInBackground(String... voids) {
+            try{
+                String message = voids[0];
+                socket = new Socket("192.168.0.3",6000);
+                writer = new PrintWriter(socket.getOutputStream());
+                writer.write(message.toString());
+                writer.flush();
+                writer.close();
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }
