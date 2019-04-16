@@ -28,7 +28,6 @@ public class PantallaPrincipal extends AppCompatActivity
         FragmentRoutesRequest.OnFragmentInteractionListener,
         FragmentFailure.OnFragmentInteractionListener {
 
-    private TextView txtUserName;
     private String userId;
     private String userName;
     private String userSurname;
@@ -64,10 +63,6 @@ public class PantallaPrincipal extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        //colocamos el userName en la pantalla principal
-
-        //txtUserName.setText("hola");
-
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -95,19 +90,15 @@ public class PantallaPrincipal extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.pantalla_principal, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -115,44 +106,42 @@ public class PantallaPrincipal extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+
         int id = item.getItemId();
-        Fragment fragmento = null;
-        boolean fragmentoSeleccionado = false;
+        Fragment fragment = null;
+        boolean selectedFragment = false;
 
         if (id == R.id.solicitudVehiculo) {
             Bundle bundle = new Bundle();
             bundle.putString("usuario", userId);
-            fragmento = new FragmentSolicitarVhiculo();
-            fragmento.setArguments(bundle);
-            fragmentoSeleccionado = true;
+            fragment = new FragmentSolicitarVhiculo();
+            fragment.setArguments(bundle);
+            selectedFragment  = true;
 
         } else if (id == R.id.reporteAveria) {
-            //probando commits
 
             Bundle bundle = new Bundle();
             bundle.putString("usuario", userId);
             bundle.putString("name", userName);
             bundle.putString("surname", userSurname);
-            Intent intento = new Intent(getApplicationContext(),FailureReport.class);
-            intento.putExtra("usuario", userId);
-            intento.putExtra("name", userName);
-            intento.putExtra("surname", userSurname);
-            startActivity(intento);
+            Intent intent = new Intent(getApplicationContext(),FailureReport.class);
+            intent.putExtra("usuario", userId);
+            intent.putExtra("name", userName);
+            intent.putExtra("surname", userSurname);
+            startActivity(intent);
 
         } else if (id == R.id.make_loan) {
             Bundle bundle = new Bundle();
             bundle.putString("usuario", userId);
             bundle.putString("name", userName);
             bundle.putString("surname", userSurname);
-            Intent intento = new Intent(getApplicationContext(), RoutesRequests.class);
-            intento.putExtra("usuario", userId);
-            intento.putExtra("name", userName);
-            intento.putExtra("surname", userSurname);
-            startActivity(intento);
+            Intent intent = new Intent(getApplicationContext(), RoutesRequests.class);
+            intent.putExtra("usuario", userId);
+            intent.putExtra("name", userName);
+            intent.putExtra("surname", userSurname);
+            startActivity(intent);
 
 
         } else if (id == R.id.nav_manage) {
@@ -162,8 +151,8 @@ public class PantallaPrincipal extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         }
-        if (fragmentoSeleccionado) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragmento).commit();
+        if (selectedFragment) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
