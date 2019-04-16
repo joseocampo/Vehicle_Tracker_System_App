@@ -263,6 +263,9 @@ public class RoutesRequests extends AppCompatActivity
             ConstraintLayout constraintLayout = (ConstraintLayout) imageView.getParent();
             TextView textView = (TextView) constraintLayout.getChildAt(1);
 
+
+
+
             int loanNumber = Integer.parseInt(loanNumber(textView.getText().toString()));
 
             String url = "http://vtsmsph.com/changeStatus.php?user=david" + "&route=" + loanNumber + "&state=1";
@@ -278,6 +281,7 @@ public class RoutesRequests extends AppCompatActivity
             intent.putExtra("name", userName);
             intent.putExtra("surname", userSurname);
             intent.putExtra("loanNumber", loanNumber);
+            //intent.putExtra("vehiclePlaque",pla);
 
             startActivity(intent);
         }
