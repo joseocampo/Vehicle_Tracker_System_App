@@ -39,6 +39,7 @@ import java.util.List;
 
 public class RoutesRequests extends AppCompatActivity implements Response.ErrorListener, Response.Listener<JSONArray> {
 
+
     private RequestQueue requestQueue;
     private JsonArrayRequest jsonArrayRequest;
     private ArrayList<Loan> myLoans;
@@ -63,6 +64,7 @@ public class RoutesRequests extends AppCompatActivity implements Response.ErrorL
             userSurname= bundle.getString("surname");
             Toast.makeText(getApplicationContext(), "Usuario: " + userId, Toast.LENGTH_SHORT).show();
         }
+
 
         myLoans = new ArrayList<>();
         loansItemView = new ArrayList<ExpandObjects>();
@@ -160,6 +162,7 @@ public class RoutesRequests extends AppCompatActivity implements Response.ErrorL
             linearLayoutComponents.addView(button);
 
             cardView.addView(linearLayoutComponents);
+
         }
     }
 
@@ -233,6 +236,11 @@ public class RoutesRequests extends AppCompatActivity implements Response.ErrorL
             ConstraintLayout constraintLayout = (ConstraintLayout) imageView.getParent();
             TextView textView = (TextView) constraintLayout.getChildAt(1);
 
+            String plate = vehiclePlate(textView.getText().toString());
+
+
+
+
             int loanNumber = Integer.parseInt(loanNumber(textView.getText().toString()));
 
             String url = "http://vtsmsph.com/changeStatus.php?user=david" + "&route=" + loanNumber + "&state=1";
@@ -247,14 +255,30 @@ public class RoutesRequests extends AppCompatActivity implements Response.ErrorL
             intent.putExtra("name", userName);
             intent.putExtra("surname", userSurname);
             intent.putExtra("loanNumber", loanNumber);
+            intent.putExtra("vehiclePlaque",plate);
 
             startActivity(intent);
         }
 
+
         public String loanNumber(String string) {
             char[] aux = string.toCharArray();
-            String plate = "";
+
+            String loan_Number = "";
             for (int i = 0; i < aux.length; i++) {
+                if (aux[i] == ' ') {
+                    return loan_Number;
+                } else {
+                    loan_Number += aux[i];
+                }
+            }
+            return loan_Number;
+        }
+        public String vehiclePlate(String string) {
+            char[] aux = string.toCharArray();
+
+            String plate = "";
+            for (int i = (aux.length-1); i >0; i--) {
                 if (aux[i] == ' ') {
                     return plate;
                 } else {
