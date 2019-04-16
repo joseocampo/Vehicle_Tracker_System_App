@@ -53,13 +53,13 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
     private RequestQueue request;
     private JsonObjectRequest jsonObjectRequest;
     private String street = "";
-    private TextView txtDireccion, txtCoordenadas;
+    //private TextView txtDireccion, txtCoordenadas;
     private int loanNumber;
     private String userId;
     private String userLoginName;
     private String userLoginSurname;
     private MarkerOptions myMarker;
-    private double latitude, longitude;
+    //private double latitude, longitude;
     private ImageView image_terminar;
     private ArrayList<LatLng> my_Points = new ArrayList<>();
 
@@ -67,7 +67,7 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_view);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -78,9 +78,7 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
         btnSatelital = (Button) findViewById(R.id.btnSatelital);
         image_terminar = (ImageView) findViewById(R.id.image_terminar);
 
-        //agregamos eventos a los botones de cambiar el tipo de vista para el ampa.
         addEvents();
-
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -89,14 +87,10 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
             userLoginSurname= bundle.getString("surname");
             loanNumber = bundle.getInt("loanNumber");
 
-
             Toast.makeText(getApplicationContext(), " usuario: " + userId + " LoanNumber: " + loanNumber, Toast.LENGTH_LONG).show();
         }
 
-        //iniciamos el recorrido
-        initTravel();
-
-
+        initTravel(); //the route is initialized
     }
 
     private void initTravel() {
@@ -109,17 +103,12 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
 
             } else {
-                //si el permiso no está denegado, hacemos la solicitud del permiso.
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             }
-
         }
 
-        //Toast.makeText(getApplicationContext(), "Hola dentro de onclick", Toast.LENGTH_SHORT).show();
-
-        LocationManager locationManager =
-                (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
         final boolean gpsActivado = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         if (!gpsActivado) {
@@ -145,8 +134,6 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
             });
 
             builder.show();
-
-
         }
 
         LocationListener locationListener = new LocationListener() {
@@ -167,23 +154,16 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
             public void onProviderDisabled(String provider) {
             }
         };
-        //se registra el listener con el loctaion manager para recivir actualizacion de localizacion.
-
-        permissionCheck = ContextCompat.checkSelfPermission(getApplicationContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-
     }
 
     private void failureReport() {
 
-        //Se cambia el estado de la solicitud de vehiculo a finalizada.
-        String url = "http://vtsmsph.com/changeStatus.php?user=david" + "&route=" + loanNumber + "&state=0";
+        String url = "http://vtsmsph.com/changeStatus.php?user=david" + "&route=" + loanNumber + "&state=0"; // The status of the vehicle request is changed to finalized.
         url.replace(" ", "%20");
 
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         request = Volley.newRequestQueue(getApplicationContext());
-        request.add(jsonObjectRequest);//aqui le enviamos la respuesta de la bd, a el metodo response.
+        request.add(jsonObjectRequest);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Reportar Averías !");
@@ -198,7 +178,6 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
                 startActivity(settingsIntent);
             }
         });
-
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -215,14 +194,11 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
                 Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
                 List<Address> addressList = null;
                 try {
-                    addressList = geocoder.getFromLocation(
-                            location.getLatitude(), location.getLongitude(), 1);
+                    addressList = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                     if (!addressList.isEmpty()) {
                         Address address = addressList.get(0);
-                        // txtDireccion.setText("Direccion:  " + address.getAddressLine(0));
 
                         if (street.equals(address.getAddressLine(0))) {
-
 
                         } else {
 
@@ -231,12 +207,10 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
                             street = address.getAddressLine(0);
 
                         }
-
                     }
                 } catch (IOException e) {
                     Toast.makeText(getApplicationContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
-
             }
         }
     }
@@ -244,14 +218,11 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
     private void saveStreet(String calle) {
 
         String url = new StringBuilder().append("http://vtsmsph.com/guardarCalle.php?user=tony").append("&route=").append(String.valueOf(loanNumber)).append("&calle=").append(calle).toString();
-
         url.replace(" ", "%20");
 
-
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
-
         request = Volley.newRequestQueue(getApplicationContext());
-        request.add(jsonObjectRequest);//aqui le enviamos la respuesta de la bd, a el metodo response.
+        request.add(jsonObjectRequest);
     }
 
     private void changeTypeHybrid() {
@@ -271,7 +242,7 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-    public void addEvents() {
+    public void addEvents() { // add events to the buttons to change the type of view for the map.
 
         btnHybrid.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -312,8 +283,6 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
         intent.putExtra("name", userLoginName);
         intent.putExtra("surname", userLoginSurname);
         startActivity(intent);
-
-
     }
 
 
@@ -321,7 +290,6 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
         LatLng myLocation = new LatLng(9.9948033, -84.0982678);
 
         myMarker = new MarkerOptions().position(myLocation).title("Mi ubicacion: " + myLocation.latitude + " " + myLocation.longitude).icon(BitmapDescriptorFactory.fromResource(R.drawable.car3));
@@ -330,11 +298,10 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
         my_Points.add(myLocation);
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
-        //activamos los botones de zomm en el mapa.
         mMap.getUiSettings().setZoomControlsEnabled(true);
 
 
-        //preguntamos si tenemos los permisos de usar mi ubicacion del celular.
+        // we ask if we have the permissions to use my cell location.
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             return;
