@@ -95,7 +95,7 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
             vehicle = bundle.getString("vehiclePlaque");
 
 
-            Toast.makeText(getApplicationContext(), " usuario: " + userId + " LoanNumber: " + loanNumber, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), " usuario: " + userId + " LoanNumber: " + loanNumber+" plate: "+vehicle, Toast.LENGTH_LONG).show();
         }
 
         initTravel(); //the route is initialized

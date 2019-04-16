@@ -236,6 +236,8 @@ public class RoutesRequests extends AppCompatActivity implements Response.ErrorL
             ConstraintLayout constraintLayout = (ConstraintLayout) imageView.getParent();
             TextView textView = (TextView) constraintLayout.getChildAt(1);
 
+            String plate = vehiclePlate(textView.getText().toString());
+
 
 
 
@@ -253,32 +255,30 @@ public class RoutesRequests extends AppCompatActivity implements Response.ErrorL
             intent.putExtra("name", userName);
             intent.putExtra("surname", userSurname);
             intent.putExtra("loanNumber", loanNumber);
-            //intent.putExtra("vehiclePlaque",pla);
+            intent.putExtra("vehiclePlaque",plate);
 
             startActivity(intent);
         }
-
- /*r.append(getConsecutive()+" - Destino: " + getDetails());
-        r.append("\n");
-        r.append("Vehículo: " + getVehicle());
-        r.append("\n");
-        r.append("Justificación: " + getJustification());
-        r.append("\n");
-        r.append("Hora Inicio: " + getBeginHour());
-        r.append("   ");
-        r.append("Hora Final: " + getEndHour());
-        r.append("\n");
-        r.append("\n");
-        r.append("Usuario a cargo del vehículo: " + getUser());
-        r.append("\n");*/
-
 
 
         public String loanNumber(String string) {
             char[] aux = string.toCharArray();
 
-            String plate = "";
+            String loan_Number = "";
             for (int i = 0; i < aux.length; i++) {
+                if (aux[i] == ' ') {
+                    return loan_Number;
+                } else {
+                    loan_Number += aux[i];
+                }
+            }
+            return loan_Number;
+        }
+        public String vehiclePlate(String string) {
+            char[] aux = string.toCharArray();
+
+            String plate = "";
+            for (int i = (aux.length-1); i >0; i--) {
                 if (aux[i] == ' ') {
                     return plate;
                 } else {
