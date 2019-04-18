@@ -164,6 +164,9 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
             public void onProviderDisabled(String provider) {
             }
         };
+         permissionCheck =
+                ContextCompat.checkSelfPermission(getApplicationContext(),
+                        Manifest.permission.ACCESS_FINE_LOCATION);
     }
 
     public void sendData(String message) {
