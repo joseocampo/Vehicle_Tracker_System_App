@@ -73,7 +73,6 @@ public class MainActivity extends AppCompatActivity
         request = Volley.newRequestQueue(getApplicationContext());
 
         request.add(jsonObjectRequest);//send the response to the DB, to the response method.
-
     }
 
     @Override
@@ -85,10 +84,12 @@ public class MainActivity extends AppCompatActivity
 
                 Intent intent = new Intent(this, PantallaPrincipal.class);
 
-                //send user credentials to the new/next activity
+//-----------------send user credentials to the new/next activity--------------------------------------------//
                 intent.putExtra("usuario",response.getString("User"));
                 intent.putExtra("name",response.getString("Name"));
                 intent.putExtra("surname", response.getString("Surname"));
+
+//----------------------------------------------------------------------------------------------------------//
 
                 Toast.makeText(this, "Ha iniciado sesión con éxito!", Toast.LENGTH_LONG).show();
                 startActivity(intent);
@@ -101,19 +102,10 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(this,"Usuario o contraseña incorrectos",Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
-
-
-
     }
 
     @Override
     public void onErrorResponse(VolleyError error) {
         Toast.makeText(this, "error " + error.toString(), Toast.LENGTH_SHORT).show();
-
     }
-
-
-
-
-
 }

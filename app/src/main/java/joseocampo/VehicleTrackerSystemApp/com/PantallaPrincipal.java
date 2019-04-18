@@ -24,9 +24,8 @@ import android.widget.Toast;
 
 public class PantallaPrincipal extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        FragmentSolicitarVhiculo.OnFragmentInteractionListener,
-        FragmentRoutesRequest.OnFragmentInteractionListener,
-        FragmentFailure.OnFragmentInteractionListener {
+        FragmentSolicitarVhiculo.OnFragmentInteractionListener
+        {
 
     private String userId;
     private String userName;
@@ -63,7 +62,6 @@ public class PantallaPrincipal extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             userId = extras.getString("usuario");
@@ -72,10 +70,7 @@ public class PantallaPrincipal extends AppCompatActivity
 
             getSupportActionBar().setTitle("");
             getSupportActionBar().setTitle("Bienvenido(a): " + userName);
-
         }
-
-
     }
 
     @Override
@@ -102,7 +97,6 @@ public class PantallaPrincipal extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

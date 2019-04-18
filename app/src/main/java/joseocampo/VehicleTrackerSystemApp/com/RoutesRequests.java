@@ -39,7 +39,7 @@ import java.util.List;
 
 public class RoutesRequests extends AppCompatActivity implements Response.ErrorListener, Response.Listener<JSONArray> {
 
-    private LinearLayout layoutCards;
+
     private RequestQueue requestQueue;
     private JsonArrayRequest jsonArrayRequest;
     private ArrayList<Loan> myLoans;
@@ -65,7 +65,7 @@ public class RoutesRequests extends AppCompatActivity implements Response.ErrorL
             Toast.makeText(getApplicationContext(), "Usuario: " + userId, Toast.LENGTH_SHORT).show();
         }
 
-        layoutCards = (LinearLayout) findViewById(R.id.layoutCards);
+
         myLoans = new ArrayList<>();
         loansItemView = new ArrayList<ExpandObjects>();
 
@@ -162,7 +162,7 @@ public class RoutesRequests extends AppCompatActivity implements Response.ErrorL
             linearLayoutComponents.addView(button);
 
             cardView.addView(linearLayoutComponents);
-            layoutCards.addView(cardView);
+
         }
     }
 
