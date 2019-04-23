@@ -163,16 +163,16 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
             public void onProviderDisabled(String provider) {
             }
         };
-<<<<<<< HEAD
+
          permissionCheck =
                 ContextCompat.checkSelfPermission(getApplicationContext(),
                         Manifest.permission.ACCESS_FINE_LOCATION);
-=======
+
 
         permissionCheck = ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
->>>>>>> e8c7f7eba2130288f7369ae8f28d9a7392c548d2
+
     }
 
     public void sendData(String message) {
@@ -235,7 +235,7 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
                         }
                     }
                 } catch (IOException e) {
-                    Toast.makeText(getApplicationContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Error al modificar la dirección.  " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         }
@@ -359,7 +359,7 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getApplicationContext(), "Error " + error.toString(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Ha ocurrido un error " + error.toString(), Toast.LENGTH_LONG).show();
     }
 
     @Override
