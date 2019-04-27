@@ -2,9 +2,11 @@ package joseocampo.VehicleTrackerSystemApp.com;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
@@ -66,6 +68,7 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
     private ImageView finish_image;
     private ArrayList<LatLng> my_Points = new ArrayList<>();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +100,7 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
         }
 
         initTravel(); //the route is initialized
+
     }
 
     private void initTravel() {
@@ -174,6 +178,43 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
 
     }
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+@Override
+protected void onStart() {
+    super.onStart();
+    IntentFilter intentfilter= new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION);
+    intentfilter.addAction(Intent.ACTION_PROVIDER_CHANGED);
+    registerReceiver(gpsStateReceiver, intentfilter);
+}
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(gpsStateReceiver);
+    }
+
+    private BroadcastReceiver gpsStateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (LocationManager.PROVIDERS_CHANGED_ACTION.equals(intent.getAction())) {
+
+
+                LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+                boolean isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+                if (isGpsEnabled ) {
+                    Toast.makeText(getApplicationContext(), "GPS Encendido", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "GPS Apagado", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }
+    };
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
 
     public void sendData(String message) {
 
