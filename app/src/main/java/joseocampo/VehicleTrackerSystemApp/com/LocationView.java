@@ -208,7 +208,9 @@ protected void onStart() {
                     Toast.makeText(getApplicationContext(), "GPS Encendido", Toast.LENGTH_SHORT).show();
 
                 } else {
-                    Toast.makeText(getApplicationContext(), "GPS Apagado", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "GPS Apagado reportando", Toast.LENGTH_SHORT).show();
+                    GmailHelper mail = new GmailHelper();
+                    mail.sendEmail(userId,vehicle);
                 }
             }
 
