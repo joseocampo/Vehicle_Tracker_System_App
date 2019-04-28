@@ -24,7 +24,8 @@ import android.widget.Toast;
 
 public class PantallaPrincipal extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        FragmentSolicitarVhiculo.OnFragmentInteractionListener
+        FragmentSolicitarVhiculo.OnFragmentInteractionListener,
+        ProfileFragment.OnFragmentInteractionListener
         {
 
     private String userId;
@@ -43,14 +44,7 @@ public class PantallaPrincipal extends AppCompatActivity
         getSupportActionBar().setTitle("Bienvenido ");
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -138,11 +132,14 @@ public class PantallaPrincipal extends AppCompatActivity
             startActivity(intent);
 
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.my_profile) {
+            Bundle bundle = new Bundle();
+            bundle.putString("user_Id_Profile", userId);
+            bundle.putString("user_Name_Profile", userName);
+            bundle.putString("user_Surname_Profile", userSurname);
+            fragment = new ProfileFragment();
+            fragment.setArguments(bundle);
+            selectedFragment  = true;
 
         }
         if (selectedFragment) {
