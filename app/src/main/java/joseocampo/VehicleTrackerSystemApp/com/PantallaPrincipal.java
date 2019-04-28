@@ -40,7 +40,7 @@ public class PantallaPrincipal extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setBackgroundDrawable(
-                new BitmapDrawable(BitmapFactory.decodeResource(getResources(), R.drawable.fondos)));
+                new BitmapDrawable(BitmapFactory.decodeResource(getResources(), R.drawable.fondoazul)));
         getSupportActionBar().setTitle("Bienvenido ");
 
 

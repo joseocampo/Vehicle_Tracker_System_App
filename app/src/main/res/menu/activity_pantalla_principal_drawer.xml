@@ -16,12 +16,16 @@
             android:id="@+id/make_loan"
             android:icon="@drawable/my_loan"
             android:title="Prestamos Activos" />
-        <item
-            android:id="@+id/my_profile"
-            android:icon="@drawable/user_account"
-            android:title="Ver mi perfil" />
+
     </group>
+    <item android:title="Detalles del usuario">
+        <menu>
+            <item
+                android:id="@+id/my_profile"
+                android:icon="@drawable/user_account"
+                android:title="Ver mi perfil" />
 
-
+        </menu>
+    </item>
 
 </menu>

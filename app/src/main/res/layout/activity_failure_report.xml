@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/fondos"
     android:orientation="vertical"
     tools:context=".FailureReport">
 
@@ -31,26 +30,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="35dp"
-                android:layout_marginBottom="30dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="4dp"
                 android:text="Reporte de Incidentes o Averías"
-                android:textColor="@android:color/background_light"
-                android:textColorHint="@android:color/background_light"
                 android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/userRequest"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:padding="2dp"
-                android:text="Usuario: "
-                android:textColor="@android:color/background_light"
-                android:textColorHint="@android:color/background_light"
-                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <!--========================================================================================================-->
@@ -65,8 +48,6 @@
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="5dp"
                 android:text="Seleccione un vehiculo"
-                android:textColor="@android:color/background_light"
-                android:textColorHint="@android:color/background_light"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -93,8 +74,6 @@
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="3dp"
                 android:text="Tipo de daño"
-                android:textColor="@android:color/background_light"
-                android:textColorHint="@android:color/background_light"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -110,8 +89,6 @@
                 android:ems="10"
                 android:hint="Leve, Medio, Grave"
                 android:inputType="text"
-                android:textColor="@android:color/background_light"
-                android:textColorHint="@android:color/background_light"
                 android:textSize="14sp"
                 tools:targetApi="o" />
             <!--========================================================================================================-->
@@ -125,8 +102,6 @@
                 android:layout_marginTop="40dp"
                 android:layout_marginRight="5dp"
                 android:text="Detalles sobre el daño"
-                android:textColor="@android:color/background_light"
-                android:textColorHint="@android:color/background_light"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -140,7 +115,6 @@
                 android:autofillHints=""
                 android:ems="10"
                 android:inputType="textAutoComplete"
-                android:textColor="@android:color/background_light"
                 android:textColorHint="@android:color/background_light"
                 android:textSize="14sp"
                 tools:targetApi="o" />
@@ -150,14 +124,12 @@
                 android:id="@+id/tv_incidentDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:text="Detalles sobre el incidente"
-                android:textColor="@android:color/background_light"
-                android:textColorHint="@android:color/background_light"
-                android:textSize="16sp"
-                android:textStyle="bold"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp" />
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="5dp"
+                android:text="Detalles sobre el incidente"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
 
             <EditText
@@ -169,7 +141,6 @@
                 android:autofillHints=""
                 android:ems="10"
                 android:inputType="textAutoComplete"
-                android:textColor="@android:color/background_light"
                 android:textColorHint="@android:color/background_light"
                 android:textSize="14sp"
                 tools:targetApi="o" />
@@ -182,7 +153,7 @@
                 android:layout_marginTop="35dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="5dp"
-                android:background="@drawable/itemview">
+                android:background="@drawable/fondoverde">
 
 
                 <TextView
@@ -220,7 +191,6 @@
         </LinearLayout>
 
     </ScrollView>
-
 
 
 </LinearLayout>

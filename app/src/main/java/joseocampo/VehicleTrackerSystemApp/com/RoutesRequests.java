@@ -53,7 +53,7 @@ public class RoutesRequests extends AppCompatActivity implements Response.ErrorL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_routes_requests);
 
-        getSupportActionBar().setBackgroundDrawable(new BitmapDrawable(BitmapFactory.decodeResource(getResources(),R.drawable.fondos)));
+        getSupportActionBar().setBackgroundDrawable(new BitmapDrawable(BitmapFactory.decodeResource(getResources(),R.drawable.fondoazul)));
         getSupportActionBar().setTitle("Prestamos Activos");
 
 
