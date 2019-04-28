@@ -30,7 +30,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
+// hola moi
 
 public class MainActivity extends AppCompatActivity
         implements Response.Listener<JSONObject>, Response.ErrorListener {
@@ -106,6 +106,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Toast.makeText(this, "error " + error.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Ha ocurrido un Error " + error.toString(), Toast.LENGTH_SHORT).show();
     }
 }

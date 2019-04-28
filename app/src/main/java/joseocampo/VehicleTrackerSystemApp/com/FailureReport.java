@@ -202,6 +202,8 @@ public class FailureReport extends AppCompatActivity implements Response.ErrorLi
             }
         } catch (JSONException e) {
             e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "Ocurrio un error con el reporte", Toast.LENGTH_LONG).show();
+
         }
 
 //----------------------------------------------------------------------------------------------------------------------------------------------//

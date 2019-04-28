@@ -2,9 +2,11 @@ package joseocampo.VehicleTrackerSystemApp.com;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
@@ -69,6 +71,7 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
     private ImageView finish_image;
     private ArrayList<LatLng> my_Points = new ArrayList<>();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +103,7 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
         }
 
         initTravel(); //the route is initialized
+
     }
 
     private void initTravel() {
@@ -178,6 +182,45 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+@Override
+protected void onStart() {
+    super.onStart();
+    IntentFilter intentfilter= new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION);
+    intentfilter.addAction(Intent.ACTION_PROVIDER_CHANGED);
+    registerReceiver(gpsStateReceiver, intentfilter);
+}
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(gpsStateReceiver);
+    }
+
+    private BroadcastReceiver gpsStateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (LocationManager.PROVIDERS_CHANGED_ACTION.equals(intent.getAction())) {
+
+
+                LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+                boolean isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+                if (isGpsEnabled ) {
+                    Toast.makeText(getApplicationContext(), "GPS Encendido", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "GPS Apagado reportando", Toast.LENGTH_SHORT).show();
+                    GmailHelper mail = new GmailHelper();
+                    mail.sendEmail(userId,vehicle);
+                }
+            }
+
+        }
+    };
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+
     public void sendData(String message) {
 
         BackgroundTask bt = new BackgroundTask();
@@ -238,7 +281,7 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
                         }
                     }
                 } catch (IOException e) {
-                    Toast.makeText(getApplicationContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Error al modificar la dirección.  " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         }
@@ -362,7 +405,7 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getApplicationContext(), "Error " + error.toString(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Ha ocurrido un error " + error.toString(), Toast.LENGTH_LONG).show();
     }
 
     @Override

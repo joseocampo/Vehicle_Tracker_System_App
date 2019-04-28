@@ -79,7 +79,7 @@ public class SaveLocation extends AppCompatActivity
 
                 final boolean gpsActivado = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
                 if (!gpsActivado) {
-
+                    Toast.makeText(getApplicationContext(), "El GPS debe ser activado. ", Toast.LENGTH_LONG).show();
 
                 }
 
@@ -162,7 +162,8 @@ public class SaveLocation extends AppCompatActivity
 
                     }
                 } catch (IOException e) {
-                    Toast.makeText(getApplicationContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Ha ocurrido un error con la ubicación: " + e.getMessage(), Toast.LENGTH_LONG).show();
+
                 }
 
             }
@@ -186,7 +187,7 @@ public class SaveLocation extends AppCompatActivity
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getApplicationContext(), "Error " + error.toString(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Error al almacenar la ruta " + error.toString(), Toast.LENGTH_LONG).show();
     }
 
     @Override

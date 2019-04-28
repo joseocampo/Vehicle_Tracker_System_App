@@ -312,7 +312,7 @@ public class FragmentSolicitarVhiculo extends Fragment implements Response.Liste
                         );
 
                     } else {
-                        Toast.makeText(getContext(), "Error desconocido", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Ha ocurrido un error con la solicitud", Toast.LENGTH_LONG).show();
                     }
                 }
                 idrequest = "consulta";

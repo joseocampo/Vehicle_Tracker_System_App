@@ -91,7 +91,7 @@ public class RoutesRequests extends AppCompatActivity implements Response.ErrorL
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getApplicationContext(), "NOT LOANS: " + error.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "No existen prestamos: " + error.toString(), Toast.LENGTH_SHORT).show();
     }
 
     public void createLoans(JSONArray pmyLoans) {
@@ -115,7 +115,7 @@ public class RoutesRequests extends AppCompatActivity implements Response.ErrorL
                 loansItemView.add(new ExpandObjects(loan.toString(), "", R.drawable.route, R.drawable.inicio));
 
             } catch (JSONException e) {
-                Toast.makeText(getApplicationContext(), "Error: " + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Ha ocurrido un error: " + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         }
         Toast.makeText(getApplicationContext(), "Prestamos: " + myLoans.size(), Toast.LENGTH_SHORT).show();
@@ -296,12 +296,12 @@ public class RoutesRequests extends AppCompatActivity implements Response.ErrorL
 
         @Override
         public void onResponse(JSONArray response) {
-
+            Toast.makeText(getApplicationContext(), "Response error", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onErrorResponse(VolleyError error) {
-
+            Toast.makeText(getApplicationContext(), "No se encontraron prestamos." , Toast.LENGTH_LONG).show();
         }
     }
 
