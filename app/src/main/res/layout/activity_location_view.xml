@@ -94,7 +94,7 @@
 
 
                 <TextView
-                    android:id="@+id/btnTerminar"
+                    android:id="@+id/finish_btn"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginStart="5dp"
@@ -106,13 +106,13 @@
                     android:textAllCaps="false"
                     android:textColor="@android:color/black"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/image_terminar"
+                    app:layout_constraintEnd_toStartOf="@+id/finish_image"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:id="@+id/image_terminar"
+                    android:id="@+id/finish_image"
                     android:layout_width="146dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="50dp"
@@ -122,7 +122,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/btnTerminar"
+                    app:layout_constraintStart_toEndOf="@+id/finish_btn"
                     app:layout_constraintTop_toTopOf="parent" />
             </android.support.constraint.ConstraintLayout>
         </LinearLayout>

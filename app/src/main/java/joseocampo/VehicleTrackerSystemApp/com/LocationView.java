@@ -2,9 +2,11 @@ package joseocampo.VehicleTrackerSystemApp.com;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
@@ -12,6 +14,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -40,7 +43,12 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.json.JSONObject;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -49,25 +57,26 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
         Response.ErrorListener, Response.Listener<JSONObject> {
 
     private GoogleMap mMap;
-    private Button btnGPS, btnNormal, btnHybrid, btnLand, btnSatelital;
+    private Button btnNormal, btnHybrid, btnLand, btnSatelital;
     private RequestQueue request;
     private JsonObjectRequest jsonObjectRequest;
     private String street = "";
-    private TextView txtDireccion, txtCoordenadas;
+
+    private String vehicle = "";
     private int loanNumber;
     private String userId;
     private String userLoginName;
     private String userLoginSurname;
     private MarkerOptions myMarker;
-    private double latitude, longitude;
-    private ImageView image_terminar;
-    private ArrayList<LatLng> milista = new ArrayList<>();
+    private ImageView finish_image;
+    private ArrayList<LatLng> my_Points = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_view);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -76,11 +85,9 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
         btnHybrid = (Button) findViewById(R.id.btnHybrid);
         btnLand = (Button) findViewById(R.id.btn_land);
         btnSatelital = (Button) findViewById(R.id.btnSatelital);
-        image_terminar = (ImageView) findViewById(R.id.image_terminar);
+        finish_image = (ImageView) findViewById(R.id.finish_image);
 
-        //agregamos eventos a los botones de cambiar el tipo de vista para el ampa.
         addEvents();
-
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -89,13 +96,13 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
             userLoginSurname= bundle.getString("surname");
             loanNumber = bundle.getInt("loanNumber");
 
+            vehicle = bundle.getString("vehiclePlaque");
 
-            Toast.makeText(getApplicationContext(), " usuario: " + userId + " LoanNumber: " + loanNumber, Toast.LENGTH_LONG).show();
+
+            Toast.makeText(getApplicationContext(), " usuario: " + userId + " LoanNumber: " + loanNumber+" plate: "+vehicle, Toast.LENGTH_LONG).show();
         }
 
-        //iniciamos el recorrido
-        initTravel();
-
+        initTravel(); //the route is initialized
 
     }
 
@@ -109,17 +116,12 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
 
             } else {
-                //si el permiso no está denegado, hacemos la solicitud del permiso.
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             }
-
         }
 
-        //Toast.makeText(getApplicationContext(), "Hola dentro de onclick", Toast.LENGTH_SHORT).show();
-
-        LocationManager locationManager =
-                (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
         final boolean gpsActivado = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         if (!gpsActivado) {
@@ -143,15 +145,16 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
                     Toast.makeText(getApplicationContext(), "La aplicacion no funciona sin GPS", Toast.LENGTH_SHORT).show();
                 }
             });
-
             builder.show();
-
-
         }
 
         LocationListener locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
+                
+                sendData(vehicle+";"+location.getLatitude()+";"+location.getLongitude());
+
+                //Format: VehiclePlate;Latitud;Longitud
                 setDirection(location);
             }
 
@@ -167,7 +170,11 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
             public void onProviderDisabled(String provider) {
             }
         };
-        //se registra el listener con el loctaion manager para recivir actualizacion de localizacion.
+
+         permissionCheck =
+                ContextCompat.checkSelfPermission(getApplicationContext(),
+                        Manifest.permission.ACCESS_FINE_LOCATION);
+
 
         permissionCheck = ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION);
@@ -175,15 +182,60 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+@Override
+protected void onStart() {
+    super.onStart();
+    IntentFilter intentfilter= new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION);
+    intentfilter.addAction(Intent.ACTION_PROVIDER_CHANGED);
+    registerReceiver(gpsStateReceiver, intentfilter);
+}
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(gpsStateReceiver);
+    }
+
+    private BroadcastReceiver gpsStateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (LocationManager.PROVIDERS_CHANGED_ACTION.equals(intent.getAction())) {
+
+
+                LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+                boolean isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+                if (isGpsEnabled ) {
+                    Toast.makeText(getApplicationContext(), "GPS Encendido", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "GPS Apagado reportando", Toast.LENGTH_SHORT).show();
+                    GmailHelper mail = new GmailHelper();
+                    mail.sendEmail(userId,vehicle);
+                }
+            }
+
+        }
+    };
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    public void sendData(String message) {
+
+        BackgroundTask bt = new BackgroundTask();
+        bt.execute(message);
+
+    }
+
     private void failureReport() {
 
-        //Se cambia el estado de la solicitud de vehiculo a finalizada.
-        String url = "http://vtsmsph.com/changeStatus.php?user=david" + "&route=" + loanNumber + "&state=0";
+        String url = "http://vtsmsph.com/changeStatus.php?user=david" + "&route=" + loanNumber + "&state=0"; // The status of the vehicle request is changed to finalized.
         url.replace(" ", "%20");
 
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
         request = Volley.newRequestQueue(getApplicationContext());
-        request.add(jsonObjectRequest);//aqui le enviamos la respuesta de la bd, a el metodo response.
+        request.add(jsonObjectRequest);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Reportar Averías !");
@@ -198,7 +250,6 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
                 startActivity(settingsIntent);
             }
         });
-
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -215,14 +266,11 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
                 Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
                 List<Address> addressList = null;
                 try {
-                    addressList = geocoder.getFromLocation(
-                            location.getLatitude(), location.getLongitude(), 1);
+                    addressList = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                     if (!addressList.isEmpty()) {
                         Address address = addressList.get(0);
-                        // txtDireccion.setText("Direccion:  " + address.getAddressLine(0));
 
                         if (street.equals(address.getAddressLine(0))) {
-
 
                         } else {
 
@@ -231,12 +279,10 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
                             street = address.getAddressLine(0);
 
                         }
-
                     }
                 } catch (IOException e) {
-                    Toast.makeText(getApplicationContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Error al modificar la dirección.  " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
-
             }
         }
     }
@@ -244,14 +290,11 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
     private void saveStreet(String calle) {
 
         String url = new StringBuilder().append("http://vtsmsph.com/guardarCalle.php?user=tony").append("&route=").append(String.valueOf(loanNumber)).append("&calle=").append(calle).toString();
-
         url.replace(" ", "%20");
 
-
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
-
         request = Volley.newRequestQueue(getApplicationContext());
-        request.add(jsonObjectRequest);//aqui le enviamos la respuesta de la bd, a el metodo response.
+        request.add(jsonObjectRequest);
     }
 
     private void changeTypeHybrid() {
@@ -271,7 +314,7 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-    public void addEvents() {
+    public void addEvents() { // add events to the buttons to change the type of view for the map.
 
         btnHybrid.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -279,25 +322,29 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
                 changeTypeHybrid();
             }
         });
+
         btnNormal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeTypeNormal();
             }
         });
+
         btnLand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeTypeLand();
             }
         });
+
         btnSatelital.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeTypeSatelital();
             }
         });
-        image_terminar.setOnClickListener(new View.OnClickListener() {
+
+        finish_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 failureReport();
@@ -307,13 +354,11 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
 
     private void finishTravel() {
 
-        Intent intent = new Intent(getApplicationContext(), FailureReport.class);
+        Intent intent = new Intent(getApplicationContext(), PantallaPrincipal.class);
         intent.putExtra("usuario", userId);
         intent.putExtra("name", userLoginName);
         intent.putExtra("surname", userLoginSurname);
         startActivity(intent);
-
-
     }
 
 
@@ -321,20 +366,18 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
         LatLng myLocation = new LatLng(9.9948033, -84.0982678);
 
         myMarker = new MarkerOptions().position(myLocation).title("Mi ubicacion: " + myLocation.latitude + " " + myLocation.longitude).icon(BitmapDescriptorFactory.fromResource(R.drawable.car3));
 
         mMap.addMarker(myMarker);
-        milista.add(myLocation);
+        my_Points.add(myLocation);
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
-        //activamos los botones de zomm en el mapa.
         mMap.getUiSettings().setZoomControlsEnabled(true);
 
 
-        //preguntamos si tenemos los permisos de usar mi ubicacion del celular.
+        // we ask if we have the permissions to use my cell location.
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             return;
@@ -345,7 +388,7 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
     public void setCurrentLocation(double x, double y) {
         LatLng myLocation = new LatLng(x, y);
         myMarker.position(myLocation);
-        milista.add(myLocation);
+        my_Points.add(myLocation);
 
         mMap.addMarker(new MarkerOptions().position(myLocation).title("Mi ubicacion" + x + " " + y).icon(BitmapDescriptorFactory.fromResource(R.drawable.mark)));
         drawRoute();
@@ -353,21 +396,53 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
 
     private void drawRoute() {
 
-        for (int i = 0; i < milista.size() - 1; i++) {
+        for (int i = 0; i < my_Points.size() - 1; i++) {
             mMap.addPolyline(new PolylineOptions().width(20)
-                    .add(milista.get(i))
-                    .add(milista.get(i + 1)).width(5).color(Color.BLACK));
+                    .add(my_Points.get(i))
+                    .add(my_Points.get(i + 1)).width(5).color(Color.BLUE));
         }
-
     }
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getApplicationContext(), "Error " + error.toString(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Ha ocurrido un error " + error.toString(), Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onResponse(JSONObject response) {
         Toast.makeText(getApplicationContext(), "Response " + response.toString(), Toast.LENGTH_LONG).show();
+    }
+
+
+    class BackgroundTask extends AsyncTask<String,Void,Void> {
+        PrintWriter writer;
+        Socket socket;
+        @Override
+        protected Void doInBackground(String... voids) {
+            try{
+                String message = voids[0];
+                socket = new Socket("192.168.0.6",6000);
+//                writer = new PrintWriter(socket.getOutputStream());
+//                writer.write(message);
+//                writer.flush();
+//                writer.close();
+                //Send the message to the server
+                OutputStream os = socket.getOutputStream();
+                OutputStreamWriter osw = new OutputStreamWriter(os);
+                BufferedWriter bw = new BufferedWriter(osw);
+
+                String number = "2";
+
+                String sendMessage = message + "\n";
+                bw.write(sendMessage);
+                bw.flush();
+                System.out.println("Message sent to the server : "+sendMessage);
+
+
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }

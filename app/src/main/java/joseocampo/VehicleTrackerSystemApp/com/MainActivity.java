@@ -30,7 +30,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
+// hola moi
 
 public class MainActivity extends AppCompatActivity
         implements Response.Listener<JSONObject>, Response.ErrorListener {
@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity
         txtUser = (EditText) findViewById(R.id.txtUser);
         txtPassword = (EditText) findViewById(R.id.txtPassWord);
 
-
         image_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,24 +64,19 @@ public class MainActivity extends AppCompatActivity
     public void iniciarSesion(View view) {
 
         String url = "http://vtsmsph.com/login.php?" + "user=" + txtUser.getText().toString()
-
                 + "&password=" + txtPassword.getText().toString();
-        //esto hace que permita ingresar los datos con espacios, ejemplo: Didier Jose
+
         url.replace(" ", "%20");
 
-        //esto nos permite establecer comunicacion con los metodos onErrorResponse() y onResponse().
-
-        //esto nos permite establecer comunicacion con los metodos onErrorResponse() y onResponse().
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this); //comunication with onErrorResponse() y onResponse() methods
 
         request = Volley.newRequestQueue(getApplicationContext());
-        request.add(jsonObjectRequest);//aqui le enviamos la respuesta de la bd, a el metodo response.
 
+        request.add(jsonObjectRequest);//send the response to the DB, to the response method.
     }
 
     @Override
     public void onResponse(JSONObject response) {
-       // Toast.makeText(this, "Exito  " + response.toString(), Toast.LENGTH_LONG).show();
 
         try {
             
@@ -90,10 +84,12 @@ public class MainActivity extends AppCompatActivity
 
                 Intent intent = new Intent(this, PantallaPrincipal.class);
 
+//-----------------send user credentials to the new/next activity--------------------------------------------//
                 intent.putExtra("usuario",response.getString("User"));
-
                 intent.putExtra("name",response.getString("Name"));
                 intent.putExtra("surname", response.getString("Surname"));
+
+//----------------------------------------------------------------------------------------------------------//
 
                 Toast.makeText(this, "Ha iniciado sesión con éxito!", Toast.LENGTH_LONG).show();
                 startActivity(intent);
@@ -106,19 +102,10 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(this,"Usuario o contraseña incorrectos",Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
-
-
-
     }
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Toast.makeText(this, "error " + error.toString(), Toast.LENGTH_SHORT).show();
-
+        Toast.makeText(this, "Ha ocurrido un Error " + error.toString(), Toast.LENGTH_SHORT).show();
     }
-
-
-
-
-
 }
