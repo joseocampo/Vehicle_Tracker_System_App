@@ -41,7 +41,10 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.json.JSONObject;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -163,16 +166,16 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
             public void onProviderDisabled(String provider) {
             }
         };
-<<<<<<< HEAD
+
          permissionCheck =
                 ContextCompat.checkSelfPermission(getApplicationContext(),
                         Manifest.permission.ACCESS_FINE_LOCATION);
-=======
+
 
         permissionCheck = ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
->>>>>>> e8c7f7eba2130288f7369ae8f28d9a7392c548d2
+
     }
 
     public void sendData(String message) {
@@ -375,11 +378,24 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
         protected Void doInBackground(String... voids) {
             try{
                 String message = voids[0];
-                socket = new Socket("192.168.0.14",6000);
-                writer = new PrintWriter(socket.getOutputStream());
-                writer.write(message);
-                writer.flush();
-                writer.close();
+                socket = new Socket("192.168.0.6",6000);
+//                writer = new PrintWriter(socket.getOutputStream());
+//                writer.write(message);
+//                writer.flush();
+//                writer.close();
+                //Send the message to the server
+                OutputStream os = socket.getOutputStream();
+                OutputStreamWriter osw = new OutputStreamWriter(os);
+                BufferedWriter bw = new BufferedWriter(osw);
+
+                String number = "2";
+
+                String sendMessage = message + "\n";
+                bw.write(sendMessage);
+                bw.flush();
+                System.out.println("Message sent to the server : "+sendMessage);
+
+
             }catch(IOException e){
                 e.printStackTrace();
             }
