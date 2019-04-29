@@ -159,7 +159,6 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
                 
                 sendData(vehicle+";"+location.getLatitude()+";"+location.getLongitude());
 
-                //Format: VehiclePlate;Latitud;Longitud
                 setDirection(location);
             }
 
@@ -189,18 +188,6 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
-   /* public void get_AdminEmails() {
-        String url = "http://vtsmsph.com/getAdminEmails.php?user=david";
-
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this); //comunication with onErrorResponse() y onResponse() methods
-
-        request =Volley.newRequestQueue(getApplicationContext()); //-> se cae en esta linea(es por el getContext que se usa en un Activity)
-
-        request.add(jsonObjectRequest);
-
-        //setAdmDestinos(response.getString("Email"));
-    }
-    */
 @Override
 protected void onStart() {
     super.onStart();
@@ -230,19 +217,15 @@ protected void onStart() {
 
                 } else {
                     Toast.makeText(getApplicationContext(), "Reportando GPS apagado...", Toast.LENGTH_SHORT).show();
-                    //GmailHelper mail = new GmailHelper();
 
                     String url = "http://vtsmsph.com/getAdminEmails.php?user=david";
                     idrequest="consultarEmails";
 
-                    jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, LocationView.this, LocationView.this); //comunication with onErrorResponse() y onResponse() methods
-                    request =Volley.newRequestQueue(getApplicationContext()); //-> se cae en esta linea(es por el getContext que se usa en un Activity)
+                    jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, LocationView.this, LocationView.this);
+                    request =Volley.newRequestQueue(getApplicationContext());
                     request.add(jsonArrayRequest);
 
                     mail= new GmailHelper();
-                    //mail.sendEmail(userId,vehicle,ArrayList);
-                    //mail.sendEmail(userId,vehicle);
-
                 }
             }
 
@@ -472,8 +455,8 @@ protected void onStart() {
             try{
                 String message = voids[0];
                 socket = new Socket("192.168.0.6",6000);
-                //Send the message to the server
-                OutputStream os = socket.getOutputStream();
+
+                OutputStream os = socket.getOutputStream(); //Send the message to the server
                 OutputStreamWriter osw = new OutputStreamWriter(os);
                 BufferedWriter bw = new BufferedWriter(osw);
 

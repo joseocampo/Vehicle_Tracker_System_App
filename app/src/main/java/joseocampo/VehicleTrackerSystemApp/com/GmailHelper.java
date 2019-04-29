@@ -47,14 +47,14 @@ public class GmailHelper {
 
     Session session = null;
     Properties prop = null;
-    private String Destino="";
-    private String Titulo, Mensaje;
+    private String Recipients="";
+    private String Title, Content;
     private static String cryptoPass = "sup3rS3xy";
-    public boolean email_enviado;
+    public boolean sent_mail;
     public ArrayList<String> emails;
 
     public GmailHelper(){
-        this.email_enviado = false;
+        this.sent_mail = false;
     }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -72,20 +72,17 @@ public class GmailHelper {
         prop.put("mail.smtp.port", "465");
 
         for(int i=0; i<emails.size();i++){
-            //Destino+=emails.get(i);
+
             if(i<emails.size()-1){
-                Destino+=emails.get(i)+",";
+                Recipients+=emails.get(i)+",";
             }
             else{
-                Destino+=emails.get(i);
+                Recipients+=emails.get(i);
             }
         }
 
-        //Toast.makeText(this, "PruebaEmails" +emails.toString(), Toast.LENGTH_LONG).show();
-
-        //Destino = ""; // se cambio-----------------------
-        Titulo = "Desactivacion de GPS";
-        Mensaje = ContenidoMensaje(cedula,vehicle);
+        Title = "Desactivacion de GPS";
+        Content = ContenidoMensaje(cedula,vehicle);
 
 
         session = Session.getDefaultInstance(prop, new Authenticator() {
@@ -97,8 +94,8 @@ public class GmailHelper {
 
         RetreiveFeedTask task = new RetreiveFeedTask();
         task.execute();
-        email_enviado = true;
-        return email_enviado;
+        sent_mail = true;
+        return sent_mail;
     }
 
 
@@ -112,12 +109,12 @@ public class GmailHelper {
         protected String doInBackground(String... strings) {
             try {
                 Message message = new MimeMessage(session);
-                message.setFrom(new InternetAddress("vehicletrackersystemmsph@gmail.com")); /*Correo de la "empresa". */
-                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(Destino)); /*Almacena el correo del destinatario.*/
-                message.setSubject(Titulo); /*Almacena el Titulo del mensaje.*/
-                message.setContent(Mensaje, "text/html; charset=utf-8"); /*Determina la codificacion del mensaje.*/
+                message.setFrom(new InternetAddress("vehicletrackersystemmsph@gmail.com"));
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(Recipients)); //Stores the recipient's mail
+                message.setSubject(Title);
+                message.setContent(Content, "text/html; charset=utf-8"); // Determines message encoding
 
-                Transport.send(message); /*Sen envia el mensaje*/
+                Transport.send(message);
 
             } catch(MessagingException e){
                 e.printStackTrace();;
@@ -129,7 +126,7 @@ public class GmailHelper {
 
         @Override
         protected void onPostExecute(String result){
-            email_enviado = false;
+            sent_mail = false;
         }
     }
 
@@ -147,7 +144,7 @@ public class GmailHelper {
             SecretKey key = keyFactory.generateSecret(keySpec);
 
             byte[] encrypedPwdBytes = Base64.decode(value, Base64.DEFAULT);
-            // cipher is not thread safe
+
             Cipher cipher = Cipher.getInstance("DES");
             cipher.init(Cipher.DECRYPT_MODE, key);
             byte[] decrypedValueBytes = (cipher.doFinal(encrypedPwdBytes));
