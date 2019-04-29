@@ -46,7 +46,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -422,7 +425,7 @@ protected void onStart() {
 
     private void drawRoute() {
 
-        for (int i = 0; i < my_Points.size() - 1; i++) {
+        for (int i = 1; i < my_Points.size() - 1; i++) {
             mMap.addPolyline(new PolylineOptions().width(20)
                     .add(my_Points.get(i))
                     .add(my_Points.get(i + 1)).width(5).color(Color.BLUE));
@@ -468,11 +471,18 @@ protected void onStart() {
         protected Void doInBackground(String... voids) {
             try{
                 String message = voids[0];
-                socket = new Socket("192.168.0.14",6000);
-                writer = new PrintWriter(socket.getOutputStream());
-                writer.write(message);
-                writer.flush();
-                writer.close();
+                socket = new Socket("192.168.0.6",6000);
+                //Send the message to the server
+                OutputStream os = socket.getOutputStream();
+                OutputStreamWriter osw = new OutputStreamWriter(os);
+                BufferedWriter bw = new BufferedWriter(osw);
+
+                String sendMessage = message + "\n";
+                bw.write(sendMessage);
+                bw.flush();
+                System.out.println("Message sent to the server : "+sendMessage);
+
+
             }catch(IOException e){
                 e.printStackTrace();
             }

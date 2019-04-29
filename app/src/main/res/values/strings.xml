@@ -38,5 +38,7 @@
     <string name="terminar_recorrido">Terminar Recorrido</string>
     <string name="normal">Normal</string>
     <string name="puede_cambiar_el_tipo_d_emapa_si_lo_deseea">Puede cambiar el tipo d emapa si lo deseea</string>
+    <string name="cedula">Cedula</string>
+    <string name="veh_culo">Vehículo</string>
 
 </resources>

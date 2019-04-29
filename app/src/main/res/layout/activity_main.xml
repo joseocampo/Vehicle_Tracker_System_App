@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/fondos"
     android:orientation="vertical"
     android:paddingLeft="35dp"
     android:paddingTop="7dp"
@@ -38,8 +37,6 @@
                 android:hint="@string/ingrese_su_usuario"
                 android:inputType="textPersonName"
                 android:textAllCaps="false"
-                android:textColor="@color/common_google_signin_btn_text_dark_default"
-                android:textColorHint="@android:color/white"
                 android:textStyle="normal"
                 tools:targetApi="o" />
 
@@ -52,8 +49,6 @@
                 android:ems="10"
                 android:hint="@string/ingrese_su_contrase_a"
                 android:inputType="textPassword"
-                android:textColor="@color/common_google_signin_btn_text_dark_default"
-                android:textColorHint="@android:color/white"
                 android:textStyle="normal"
                 tools:targetApi="o" />
 
@@ -64,7 +59,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="5dp"
-                android:background="@drawable/itemview">
+                android:background="@drawable/fondoverde">
 
 
                 <TextView

@@ -45,9 +45,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getSupportActionBar().setBackgroundDrawable(
-                new BitmapDrawable(BitmapFactory.decodeResource(getResources(),R.drawable.fondos)));
-        getSupportActionBar().setTitle("Control de Vehículos");
+        getSupportActionBar().setBackgroundDrawable(new BitmapDrawable(BitmapFactory.decodeResource(getResources(), R.drawable.fondoazul)));
 
         image_login = (ImageView) findViewById(R.id.image_login);
         txtUser = (EditText) findViewById(R.id.txtUser);
@@ -71,6 +69,7 @@ public class MainActivity extends AppCompatActivity
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this); //comunication with onErrorResponse() y onResponse() methods
 
         request = Volley.newRequestQueue(getApplicationContext());
+
 
         request.add(jsonObjectRequest);//send the response to the DB, to the response method.
     }

@@ -53,7 +53,7 @@ public class RoutesRequests extends AppCompatActivity implements Response.ErrorL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_routes_requests);
 
-        getSupportActionBar().setBackgroundDrawable(new BitmapDrawable(BitmapFactory.decodeResource(getResources(),R.drawable.fondos)));
+        getSupportActionBar().setBackgroundDrawable(new BitmapDrawable(BitmapFactory.decodeResource(getResources(),R.drawable.fondoazul)));
         getSupportActionBar().setTitle("Prestamos Activos");
 
 
@@ -275,14 +275,20 @@ public class RoutesRequests extends AppCompatActivity implements Response.ErrorL
             return loan_Number;
         }
         public String vehiclePlate(String string) {
+
             char[] aux = string.toCharArray();
+
 
             String plate = "";
             for (int i = (aux.length-1); i >0; i--) {
                 if (aux[i] == ' ') {
-                    return plate;
+                    for(int x=(i+1); x<aux.length; x++){
+                        plate += aux[x];
+                    }
+                    i=0;
                 } else {
-                    plate += aux[i];
+
+
                 }
             }
             return plate;
