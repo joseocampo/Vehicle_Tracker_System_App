@@ -1,13 +1,28 @@
 package joseocampo.VehicleTrackerSystemApp.com;
 
+import android.app.Application;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+//import java.net.PasswordAuthentication;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.crypto.BadPaddingException;
@@ -32,16 +47,23 @@ public class GmailHelper {
 
     Session session = null;
     Properties prop = null;
-    private String Destino, Titulo, Mensaje;
+    private String Destino="";
+    private String Titulo, Mensaje;
     private static String cryptoPass = "sup3rS3xy";
     public boolean email_enviado;
+    public ArrayList<String> emails;
 
     public GmailHelper(){
         this.email_enviado = false;
     }
 
+//-------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    public boolean sendEmail(String cedula, String vehicle){
+
+
+    public boolean sendEmail(String cedula, String vehicle,  ArrayList<String> emails){
+
+
         prop = new Properties();
         prop.put("mail.smtp.host", "smtp.gmail.com");
         prop.put("mail.smtp.socketFactory.port", "465");
@@ -49,8 +71,19 @@ public class GmailHelper {
         prop.put("mail.smtp.auth", "true");
         prop.put("mail.smtp.port", "465");
 
+        for(int i=0; i<emails.size();i++){
+            //Destino+=emails.get(i);
+            if(i<emails.size()-1){
+                Destino+=emails.get(i)+",";
+            }
+            else{
+                Destino+=emails.get(i);
+            }
+        }
 
-        Destino = "arleyy1004@gmail.com,moiso1908@gmail.com";
+        //Toast.makeText(this, "PruebaEmails" +emails.toString(), Toast.LENGTH_LONG).show();
+
+        //Destino = ""; // se cambio-----------------------
         Titulo = "Desactivacion de GPS";
         Mensaje = ContenidoMensaje(cedula,vehicle);
 
@@ -67,6 +100,11 @@ public class GmailHelper {
         email_enviado = true;
         return email_enviado;
     }
+
+
+
+
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
     class RetreiveFeedTask extends AsyncTask<String, Void, String> {
 

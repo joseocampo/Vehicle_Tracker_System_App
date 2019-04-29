@@ -21,15 +21,16 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -41,6 +42,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -51,12 +54,12 @@ import java.util.List;
 import java.util.Locale;
 
 public class LocationView extends FragmentActivity implements OnMapReadyCallback,
-        Response.ErrorListener, Response.Listener<JSONObject> {
+        Response.ErrorListener, Response.Listener<JSONArray> {
 
     private GoogleMap mMap;
     private Button btnNormal, btnHybrid, btnLand, btnSatelital;
     private RequestQueue request;
-    private JsonObjectRequest jsonObjectRequest;
+    private JsonArrayRequest jsonArrayRequest;
     private String street = "";
 
     private String vehicle = "";
@@ -67,6 +70,8 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
     private MarkerOptions myMarker;
     private ImageView finish_image;
     private ArrayList<LatLng> my_Points = new ArrayList<>();
+    GmailHelper mail;
+    private static String idrequest = "guardarCalle";
 
 
     @Override
@@ -180,6 +185,19 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
     }
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+   /* public void get_AdminEmails() {
+        String url = "http://vtsmsph.com/getAdminEmails.php?user=david";
+
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this); //comunication with onErrorResponse() y onResponse() methods
+
+        request =Volley.newRequestQueue(getApplicationContext()); //-> se cae en esta linea(es por el getContext que se usa en un Activity)
+
+        request.add(jsonObjectRequest);
+
+        //setAdmDestinos(response.getString("Email"));
+    }
+    */
 @Override
 protected void onStart() {
     super.onStart();
@@ -208,9 +226,20 @@ protected void onStart() {
                     Toast.makeText(getApplicationContext(), "GPS Encendido", Toast.LENGTH_SHORT).show();
 
                 } else {
-                    Toast.makeText(getApplicationContext(), "GPS Apagado reportando", Toast.LENGTH_SHORT).show();
-                    GmailHelper mail = new GmailHelper();
-                    mail.sendEmail(userId,vehicle);
+                    Toast.makeText(getApplicationContext(), "Reportando GPS apagado...", Toast.LENGTH_SHORT).show();
+                    //GmailHelper mail = new GmailHelper();
+
+                    String url = "http://vtsmsph.com/getAdminEmails.php?user=david";
+                    idrequest="consultarEmails";
+
+                    jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, LocationView.this, LocationView.this); //comunication with onErrorResponse() y onResponse() methods
+                    request =Volley.newRequestQueue(getApplicationContext()); //-> se cae en esta linea(es por el getContext que se usa en un Activity)
+                    request.add(jsonArrayRequest);
+
+                    mail= new GmailHelper();
+                    //mail.sendEmail(userId,vehicle,ArrayList);
+                    //mail.sendEmail(userId,vehicle);
+
                 }
             }
 
@@ -230,9 +259,9 @@ protected void onStart() {
         String url = "http://vtsmsph.com/changeStatus.php?user=david" + "&route=" + loanNumber + "&state=0"; // The status of the vehicle request is changed to finalized.
         url.replace(" ", "%20");
 
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, this, this);
         request = Volley.newRequestQueue(getApplicationContext());
-        request.add(jsonObjectRequest);
+        request.add(jsonArrayRequest);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Reportar Averías !");
@@ -289,9 +318,9 @@ protected void onStart() {
         String url = new StringBuilder().append("http://vtsmsph.com/guardarCalle.php?user=tony").append("&route=").append(String.valueOf(loanNumber)).append("&calle=").append(calle).toString();
         url.replace(" ", "%20");
 
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, this, this);
         request = Volley.newRequestQueue(getApplicationContext());
-        request.add(jsonObjectRequest);
+        request.add(jsonArrayRequest);
     }
 
     private void changeTypeHybrid() {
@@ -406,8 +435,29 @@ protected void onStart() {
     }
 
     @Override
-    public void onResponse(JSONObject response) {
-        Toast.makeText(getApplicationContext(), "Response " + response.toString(), Toast.LENGTH_LONG).show();
+    public void onResponse(JSONArray response) {
+        try{
+            if(idrequest.equals("consultarEmails")){
+
+                JSONObject jsonObject;
+                ArrayList<String> emails = new ArrayList<>();
+
+
+                for (int i = 0; i < response.length(); i++) {
+
+                    jsonObject = response.getJSONObject(i);
+
+                    emails.add( jsonObject.getString("Email"));
+                }
+
+                 mail.sendEmail(userId,vehicle,emails);
+
+            }else{
+                Toast.makeText(getApplicationContext(), "Response " + response.toString(), Toast.LENGTH_LONG).show();
+            }
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 
