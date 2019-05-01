@@ -154,7 +154,9 @@ public class FailureReport extends AppCompatActivity implements Response.ErrorLi
 
 
     @Override
-    public void onErrorResponse(VolleyError error) {}
+    public void onErrorResponse(VolleyError error) {
+        Toast.makeText(getApplicationContext(), "Algo salio mal!", Toast.LENGTH_LONG).show();
+    }
 
     @Override
     public void onResponse(JSONArray response) {

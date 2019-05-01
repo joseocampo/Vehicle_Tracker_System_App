@@ -92,6 +92,7 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
         btnSatelital = (Button) findViewById(R.id.btnSatelital);
         finish_image = (ImageView) findViewById(R.id.finish_image);
 
+        //eventos para todos los componentes de la vista
         addEvents();
 
         Bundle bundle = getIntent().getExtras();

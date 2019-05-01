@@ -22,14 +22,19 @@
             android:title="Prestamos Activos" />
 
     </group>
-    <item android:title="Detalles del usuario">
+    <item android:title="Para el usuario">
         <menu>
             <item
                 android:id="@+id/my_profile"
                 android:icon="@drawable/user_logon"
                 android:title="Ver mi perfil" />
+            <item
+                android:id="@+id/user_help"
+                android:icon="@drawable/app_help"
+                android:title="Ayuda" />
 
         </menu>
     </item>
+
 
 </menu>

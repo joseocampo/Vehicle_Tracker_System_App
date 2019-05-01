@@ -27,7 +27,8 @@ public class PantallaPrincipal extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         FragmentSolicitarVhiculo.OnFragmentInteractionListener,
         ProfileFragment.OnFragmentInteractionListener,
-        WelcomePage.OnFragmentInteractionListener
+        WelcomePage.OnFragmentInteractionListener,
+        App_Help.OnFragmentInteractionListener
         {
 
     private String userId;
@@ -159,6 +160,9 @@ public class PantallaPrincipal extends AppCompatActivity
 
         }else if(id == R.id.welcome_page){
             fragment = new WelcomePage();
+            selectedFragment  = true;
+        }else if(id == R.id.user_help){
+            fragment = new App_Help();
             selectedFragment  = true;
         }
         if (selectedFragment) {
