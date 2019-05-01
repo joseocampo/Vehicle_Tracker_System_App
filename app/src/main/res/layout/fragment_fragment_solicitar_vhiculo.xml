@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/itemview"
     android:orientation="vertical"
     android:padding="10dp"
     tools:context=".FragmentSolicitarVhiculo">
@@ -135,10 +134,9 @@
                 android:id="@+id/btnMakeRequest"
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
-                android:background="@drawable/fondos"
+                android:background="@drawable/fondoverde"
                 android:text="@string/realizar_solicitud"
                 android:textAllCaps="false"
-                android:textColor="@android:color/background_light"
                 android:textSize="14sp" />
 
             <LinearLayout

@@ -55,7 +55,7 @@ public class FailureReport extends AppCompatActivity implements Response.ErrorLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_failure_report);
-        getSupportActionBar().setBackgroundDrawable(new BitmapDrawable(BitmapFactory.decodeResource(getResources(), R.drawable.fondos)));
+        getSupportActionBar().setBackgroundDrawable(new BitmapDrawable(BitmapFactory.decodeResource(getResources(), R.drawable.fondoazul)));
 
         getSupportActionBar().setTitle("Reporte de averías");
 
@@ -78,8 +78,7 @@ public class FailureReport extends AppCompatActivity implements Response.ErrorLi
         damageDetails_et = findViewById(R.id.et_damageDetails);
         incidentDetails_et = findViewById(R.id.et_incidentDetails);
 
-        user_tv = findViewById(R.id.userRequest);
-        user_tv.setText("Usuario actual: " + userName + " " + userSurname);
+
 
         loadVehicles();
 

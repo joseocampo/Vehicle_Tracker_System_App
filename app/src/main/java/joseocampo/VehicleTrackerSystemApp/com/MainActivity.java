@@ -30,7 +30,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-// hola moi
+
 
 public class MainActivity extends AppCompatActivity
         implements Response.Listener<JSONObject>, Response.ErrorListener {
@@ -45,9 +45,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getSupportActionBar().setBackgroundDrawable(
-                new BitmapDrawable(BitmapFactory.decodeResource(getResources(),R.drawable.fondos)));
-        getSupportActionBar().setTitle("Control de Vehículos");
+        getSupportActionBar().setBackgroundDrawable(new BitmapDrawable(BitmapFactory.decodeResource(getResources(), R.drawable.fondoazul)));
 
         image_login = (ImageView) findViewById(R.id.image_login);
         txtUser = (EditText) findViewById(R.id.txtUser);
@@ -56,23 +54,50 @@ public class MainActivity extends AppCompatActivity
         image_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 iniciarSesion(v);
             }
         });
     }
+    private boolean validUser(){
+        String message = txtUser.getText().toString().trim();
+        if(message.isEmpty()){
+            txtUser.setError("Campo usuario está vacío");
+            return false;
+        }else{
+            txtUser.setError(null);
+            return  true;
+        }
+    }
+    private boolean validPassword(){
+        String message = txtPassword.getText().toString().trim();
+        if(message.isEmpty()){
+            txtPassword.setError("Campo contraseña está vacío");
+            return false;
+        }else{
+            txtPassword.setError(null);
+            return  true;
+        }
+    }
 
     public void iniciarSesion(View view) {
+        if(!validUser() | !validPassword()){
+            return;
+        }else{
+            String url = "http://vtsmsph.com/login.php?" + "user=" + txtUser.getText().toString()
+                    + "&password=" + txtPassword.getText().toString();
 
-        String url = "http://vtsmsph.com/login.php?" + "user=" + txtUser.getText().toString()
-                + "&password=" + txtPassword.getText().toString();
+            url.replace(" ", "%20");
 
-        url.replace(" ", "%20");
+            jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this); //comunication with onErrorResponse() y onResponse() methods
 
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this); //comunication with onErrorResponse() y onResponse() methods
+            request = Volley.newRequestQueue(getApplicationContext());
 
-        request = Volley.newRequestQueue(getApplicationContext());
 
-        request.add(jsonObjectRequest);//send the response to the DB, to the response method.
+            request.add(jsonObjectRequest);//send the response to the DB, to the response method.
+        }
+
+
     }
 
     @Override

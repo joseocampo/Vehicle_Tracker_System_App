@@ -5,6 +5,10 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/welcome_page"
+            android:icon="@drawable/icon_vehicle"
+            android:title="Inicio" />
+        <item
             android:id="@+id/solicitudVehiculo"
             android:icon="@drawable/icon_vehicle"
             android:title="@string/solicitar_veh_culo" />
@@ -16,12 +20,16 @@
             android:id="@+id/make_loan"
             android:icon="@drawable/my_loan"
             android:title="Prestamos Activos" />
-        <item
-            android:id="@+id/my_profile"
-            android:icon="@drawable/user_account"
-            android:title="Ver mi perfil" />
+
     </group>
+    <item android:title="Detalles del usuario">
+        <menu>
+            <item
+                android:id="@+id/my_profile"
+                android:icon="@drawable/user_account"
+                android:title="Ver mi perfil" />
 
-
+        </menu>
+    </item>
 
 </menu>

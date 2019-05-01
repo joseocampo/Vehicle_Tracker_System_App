@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -25,7 +26,8 @@ import android.widget.Toast;
 public class PantallaPrincipal extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         FragmentSolicitarVhiculo.OnFragmentInteractionListener,
-        ProfileFragment.OnFragmentInteractionListener
+        ProfileFragment.OnFragmentInteractionListener,
+        WelcomePage.OnFragmentInteractionListener
         {
 
     private String userId;
@@ -40,7 +42,7 @@ public class PantallaPrincipal extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setBackgroundDrawable(
-                new BitmapDrawable(BitmapFactory.decodeResource(getResources(), R.drawable.fondos)));
+                new BitmapDrawable(BitmapFactory.decodeResource(getResources(), R.drawable.fondoazul)));
         getSupportActionBar().setTitle("Bienvenido ");
 
 
@@ -54,6 +56,9 @@ public class PantallaPrincipal extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_main,new WelcomePage()).commit();
 
 
         Bundle extras = getIntent().getExtras();
@@ -141,6 +146,9 @@ public class PantallaPrincipal extends AppCompatActivity
             fragment.setArguments(bundle);
             selectedFragment  = true;
 
+        }else if(id == R.id.welcome_page){
+            fragment = new WelcomePage();
+            selectedFragment  = true;
         }
         if (selectedFragment) {
             getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
