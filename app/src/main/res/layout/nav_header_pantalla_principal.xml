@@ -15,10 +15,10 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="64dp"
-        android:layout_height="78dp"
+        android:layout_width="99dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        app:srcCompat="@drawable/profile" />
+        app:srcCompat="@drawable/account" />
 
     <TextView
         android:id="@+id/txtUserName"
@@ -26,14 +26,10 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="@string/usuario"
+        android:textAllCaps="false"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/common_google_signin_btn_text_dark_default" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/www_vtsmsph_com"
-        android:textColor="@color/common_google_signin_btn_text_dark_default" />
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
+        android:textSize="18sp"
+        android:textStyle="bold|italic" />
 
 </LinearLayout>

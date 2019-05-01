@@ -6,19 +6,19 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/welcome_page"
-            android:icon="@drawable/icon_vehicle"
+            android:icon="@drawable/home_icon"
             android:title="Inicio" />
         <item
             android:id="@+id/solicitudVehiculo"
-            android:icon="@drawable/icon_vehicle"
+            android:icon="@drawable/vehicle_icon"
             android:title="@string/solicitar_veh_culo" />
         <item
             android:id="@+id/reporteAveria"
-            android:icon="@drawable/failure_icon"
+            android:icon="@drawable/report"
             android:title="@string/reportar_aver_as" />
         <item
             android:id="@+id/make_loan"
-            android:icon="@drawable/my_loan"
+            android:icon="@drawable/loan_icon"
             android:title="Prestamos Activos" />
 
     </group>
@@ -26,7 +26,7 @@
         <menu>
             <item
                 android:id="@+id/my_profile"
-                android:icon="@drawable/user_account"
+                android:icon="@drawable/user_logon"
                 android:title="Ver mi perfil" />
 
         </menu>

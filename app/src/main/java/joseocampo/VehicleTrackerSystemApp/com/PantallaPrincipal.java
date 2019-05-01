@@ -33,6 +33,7 @@ public class PantallaPrincipal extends AppCompatActivity
     private String userId;
     private String userName;
     private String userSurname;
+    private TextView txtuserName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +57,13 @@ public class PantallaPrincipal extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setItemIconTintList(null);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_main,new WelcomePage()).commit();
+
+
+
 
 
         Bundle extras = getIntent().getExtras();
@@ -69,7 +74,13 @@ public class PantallaPrincipal extends AppCompatActivity
 
             getSupportActionBar().setTitle("");
             getSupportActionBar().setTitle("Bienvenido(a): " + userName);
+
+            View view  = navigationView.getHeaderView(0);
+            txtuserName = (TextView)view.findViewById(R.id.txtUserName);
+            txtuserName.setText(userName+" "+userSurname);
+
         }
+
     }
 
     @Override
