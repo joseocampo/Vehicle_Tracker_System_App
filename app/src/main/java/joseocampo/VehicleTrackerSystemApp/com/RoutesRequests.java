@@ -28,6 +28,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -223,8 +224,10 @@ public class RoutesRequests extends AppCompatActivity implements Response.ErrorL
         }
     }
 
-    class ButtonsOnClickListener implements View.OnClickListener, Response.Listener<JSONArray>, Response.ErrorListener {
+    class ButtonsOnClickListener implements View.OnClickListener, Response.Listener<JSONObject>, Response.ErrorListener {
         Context context;
+        private RequestQueue requestQueue1;
+        private JsonObjectRequest jsonObjectRequest;
 
         public ButtonsOnClickListener(Context context) {
             this.context = context;
@@ -246,9 +249,9 @@ public class RoutesRequests extends AppCompatActivity implements Response.ErrorL
             String url = "http://vtsmsph.com/changeStatus.php?user=david" + "&route=" + loanNumber + "&state=1";
             url.replace(" ", "%20");
 
-            jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, this, this);
-            requestQueue = Volley.newRequestQueue(getApplicationContext());
-            requestQueue.add(jsonArrayRequest);
+            jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+            requestQueue1 = Volley.newRequestQueue(getApplicationContext());
+            requestQueue1.add(jsonObjectRequest);
 
             Intent intent = new Intent(getApplicationContext(), LocationView.class);
             intent.putExtra("usuario", userId);
@@ -295,13 +298,13 @@ public class RoutesRequests extends AppCompatActivity implements Response.ErrorL
         }
 
         @Override
-        public void onResponse(JSONArray response) {
-            Toast.makeText(getApplicationContext(), "Response error", Toast.LENGTH_SHORT).show();
+        public void onResponse(JSONObject response) {
+            //Toast.makeText(getApplicationContext(), "Response error", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onErrorResponse(VolleyError error) {
-            Toast.makeText(getApplicationContext(), "No se encontraron prestamos." , Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "No se encontraron prestamos."+error.toString() , Toast.LENGTH_LONG).show();
         }
     }
 
