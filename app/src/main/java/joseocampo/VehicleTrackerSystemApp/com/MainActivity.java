@@ -30,7 +30,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-// hola moi
+
 
 public class MainActivity extends AppCompatActivity
         implements Response.Listener<JSONObject>, Response.ErrorListener {
