@@ -418,7 +418,7 @@ protected void onStart() {
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getApplicationContext(), "Ha ocurrido un error " + error.toString(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Ocurrio un error al solicitar el vehiculo" , Toast.LENGTH_LONG).show();
     }
 
     @Override

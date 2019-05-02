@@ -92,7 +92,8 @@ public class RoutesRequests extends AppCompatActivity implements Response.ErrorL
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getApplicationContext(), "No existen prestamos: " + error.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Ucurrio un error con los prestamos." , Toast.LENGTH_LONG).show();
+        // Toast.makeText(getApplicationContext(), "No existen prestamos: " + error.toString(), Toast.LENGTH_SHORT).show();
     }
 
     public void createLoans(JSONArray pmyLoans) {

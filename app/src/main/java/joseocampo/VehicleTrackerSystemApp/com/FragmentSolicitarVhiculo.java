@@ -355,8 +355,9 @@ public class FragmentSolicitarVhiculo extends Fragment implements Response.Liste
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(), "Detalle del error:  " + error.toString(), Toast.LENGTH_LONG).show();
-        System.out.println("Detalle del error:  " + error.toString());
+        Toast.makeText(getContext(), "Ocurrio un error al solicitar el vehiculo", Toast.LENGTH_LONG).show();
+        //Toast.makeText(getContext(), "Detalle del error:  " + error.toString(), Toast.LENGTH_LONG).show();
+        //System.out.println("Detalle del error:  " + error.toString());
     }
 
     public void onButtonPressed(Uri uri) {
