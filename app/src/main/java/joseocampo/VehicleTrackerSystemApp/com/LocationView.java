@@ -105,7 +105,7 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
             vehicle = bundle.getString("vehiclePlaque");
 
 
-            Toast.makeText(getApplicationContext(), " usuario: " + userId + " LoanNumber: " + loanNumber+" plate: "+vehicle, Toast.LENGTH_LONG).show();
+            //preguntar//Toast.makeText(getApplicationContext(), " usuario: " + userId + " LoanNumber: " + loanNumber+" plate: "+vehicle, Toast.LENGTH_LONG).show();
         }
 
         initTravel(); //the route is initialized
@@ -418,7 +418,7 @@ protected void onStart() {
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getApplicationContext(), "Ocurrio un error al solicitar el vehiculo" , Toast.LENGTH_LONG).show();
+        //--revisar--//Toast.makeText(getApplicationContext(), "Ocurrio un error al solicitar el vehiculo" , Toast.LENGTH_LONG).show();
     }
 
     @Override

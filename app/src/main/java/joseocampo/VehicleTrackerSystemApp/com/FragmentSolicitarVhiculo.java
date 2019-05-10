@@ -111,7 +111,6 @@ public class FragmentSolicitarVhiculo extends Fragment implements Response.Liste
         dateTimerequest = (TextView) vista.findViewById(R.id.dateTimeRequest);
 
         userNameLogin = getArguments().getString("usuario");
-        Toast.makeText(getContext(), "Usuario: " + userNameLogin, Toast.LENGTH_LONG).show();
 
         userRequest.setText("       -- ningún vehículo solicitado --"); //we put this text to indicate that the request is empty because no vehicle has been requested.
 
@@ -357,7 +356,6 @@ public class FragmentSolicitarVhiculo extends Fragment implements Response.Liste
     public void onErrorResponse(VolleyError error) {
         Toast.makeText(getContext(), "Ocurrio un error al solicitar el vehiculo", Toast.LENGTH_LONG).show();
         //Toast.makeText(getContext(), "Detalle del error:  " + error.toString(), Toast.LENGTH_LONG).show();
-        //System.out.println("Detalle del error:  " + error.toString());
     }
 
     public void onButtonPressed(Uri uri) {

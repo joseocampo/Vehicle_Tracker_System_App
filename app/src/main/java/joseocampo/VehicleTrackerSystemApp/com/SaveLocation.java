@@ -189,7 +189,6 @@ public class SaveLocation extends AppCompatActivity
     public void onErrorResponse(VolleyError error) {
         Toast.makeText(getApplicationContext(),"Ocurrio un error al guardar la ruta", Toast.LENGTH_LONG).show();
 
-        //Toast.makeText(getApplicationContext(), "Error al almacenar la ruta " + error.toString(), Toast.LENGTH_LONG).show();
     }
 
     @Override

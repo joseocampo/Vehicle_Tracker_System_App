@@ -63,7 +63,6 @@ public class RoutesRequests extends AppCompatActivity implements Response.ErrorL
             userId = bundle.getString("usuario");
             userName= bundle.getString("name");
             userSurname= bundle.getString("surname");
-            Toast.makeText(getApplicationContext(), "Usuario: " + userId, Toast.LENGTH_SHORT).show();
         }
 
 
@@ -92,8 +91,8 @@ public class RoutesRequests extends AppCompatActivity implements Response.ErrorL
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getApplicationContext(), "Ucurrio un error con los prestamos." , Toast.LENGTH_LONG).show();
-        // Toast.makeText(getApplicationContext(), "No existen prestamos: " + error.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Ocurrio un error con los prestamos." , Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "No existen prestamos: " + error.toString(), Toast.LENGTH_SHORT).show();
     }
 
     public void createLoans(JSONArray pmyLoans) {
@@ -120,7 +119,6 @@ public class RoutesRequests extends AppCompatActivity implements Response.ErrorL
                 Toast.makeText(getApplicationContext(), "Ha ocurrido un error: " + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         }
-        Toast.makeText(getApplicationContext(), "Prestamos: " + myLoans.size(), Toast.LENGTH_SHORT).show();
 
         fillListView();
         addEventListeners();
@@ -242,9 +240,6 @@ public class RoutesRequests extends AppCompatActivity implements Response.ErrorL
 
             String plate = vehiclePlate(textView.getText().toString());
 
-
-
-
             int loanNumber = Integer.parseInt(loanNumber(textView.getText().toString()));
 
             String url = "http://vtsmsph.com/changeStatus.php?user=david" + "&route=" + loanNumber + "&state=1";
@@ -299,9 +294,7 @@ public class RoutesRequests extends AppCompatActivity implements Response.ErrorL
         }
 
         @Override
-        public void onResponse(JSONObject response) {
-            //Toast.makeText(getApplicationContext(), "Response error", Toast.LENGTH_SHORT).show();
-        }
+        public void onResponse(JSONObject response) {}
 
         @Override
         public void onErrorResponse(VolleyError error) {
