@@ -19,6 +19,7 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -256,11 +257,15 @@ protected void onStart() {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent settingsIntent = new Intent(LocationView.this, FailureReport.class);
-                settingsIntent.putExtra("usuario", userId);
-                settingsIntent.putExtra("name", userLoginName);
-                settingsIntent.putExtra("surname", userLoginSurname);
-                startActivity(settingsIntent);
+//                Intent settingsIntent = new Intent(LocationView.this, FailureReport.class);
+//                settingsIntent.putExtra("usuario", userId);
+//                settingsIntent.putExtra("name", userLoginName);
+//                settingsIntent.putExtra("surname", userLoginSurname);
+//                startActivity(settingsIntent);
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.content_main,new App_Help()).commit();
+
+
             }
         });
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {

@@ -214,6 +214,29 @@ public class FragmentSolicitarVhiculo extends Fragment implements Response.Liste
 
         newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
     }
+
+
+    private boolean validDestiny(){
+        String message = destiny_field.getText().toString().trim();
+        if(message.isEmpty()){
+            destiny_field.setError("Campo usuario está vacío");
+            return false;
+        }else{
+            destiny_field.setError(null);
+            return  true;
+        }
+    }
+    private boolean validJustification(){
+        String message = justification_field.getText().toString().trim();
+        if(message.isEmpty()){
+            justification_field.setError("Campo contraseña está vacío");
+            return false;
+        }else{
+            justification_field.setError(null);
+            return  true;
+        }
+    }
+
 //---------------------------------------------------------------------------------------------------------------------//
 
 
@@ -246,7 +269,7 @@ public class FragmentSolicitarVhiculo extends Fragment implements Response.Liste
 
     private void loadWebService() {
 
-        if (destiny_field.getText().toString().equals("") | justification_field.getText().toString().equals("") |
+        if (!validDestiny() | !validJustification() |
                 beginHour == -1 | beginMinutes == -1 | endHour == -1 | endMinutes == -1) {
 
             Toast.makeText(getContext(), "Por favor ingrese todos los datos", Toast.LENGTH_LONG).show();

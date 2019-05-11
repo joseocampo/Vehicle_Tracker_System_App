@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -34,53 +35,40 @@
                 style="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:background="@android:color/background_light"
                 android:fadeScrollbars="true"
                 android:gravity="left"
                 android:padding="3dp" />
 
-            <TextView
-                android:id="@+id/textView2"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="3dp"
-                android:text="@string/ingrese_destino"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                app:counterEnabled="true"
+                app:counterMaxLength="300"
+                app:errorEnabled="true">
 
-            <EditText
-                android:id="@+id/destinyField"
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/destinyField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Ingrese destino"
+                    android:inputType="text" />
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:autofillHints=""
-                android:ems="10"
-                android:hint="@string/parque_ulloa"
-                android:inputType="textPersonName"
-                android:textSize="14sp"
-                tools:targetApi="o" />
+                app:counterEnabled="true"
+                app:counterMaxLength="300"
+                app:errorEnabled="true">
 
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="3dp"
-                android:text="Justificacion de uso"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/justificationField"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:ems="10"
-                android:hint="@string/entrega_de_material"
-                android:inputType="textPersonName"
-                android:textSize="14sp"
-                tools:targetApi="o" />
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/justificationField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Justificación de uso"
+                    android:inputType="text" />
+            </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:id="@+id/btnBeginHour"
