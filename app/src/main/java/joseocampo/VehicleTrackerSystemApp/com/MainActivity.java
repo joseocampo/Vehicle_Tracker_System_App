@@ -131,6 +131,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Toast.makeText(this, "Ha ocurrido un Error " + error.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Existio un error en el Login" , Toast.LENGTH_LONG).show();
     }
 }

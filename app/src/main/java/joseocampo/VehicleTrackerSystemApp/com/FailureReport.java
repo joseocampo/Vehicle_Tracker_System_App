@@ -65,8 +65,6 @@ public class FailureReport extends AppCompatActivity implements Response.ErrorLi
             userId = bundle.getString("usuario");
             userName = bundle.getString("name");
             userSurname = bundle.getString("surname");
-
-            Toast.makeText(getApplicationContext(), " usuario: " + userName, Toast.LENGTH_LONG).show();
         }
 
         list = findViewById(R.id.vehicleList);
@@ -162,7 +160,6 @@ public class FailureReport extends AppCompatActivity implements Response.ErrorLi
     public void onResponse(JSONArray response) {
 
 //------------------------------------------------Checks if the report is saved successfully---------------------------------------------------------------------//
-
         try {
 
             if (idrequest.equals("solicitud")) {
@@ -176,7 +173,7 @@ public class FailureReport extends AppCompatActivity implements Response.ErrorLi
                 } else {
                     if (jsonObject.getString("Resultado").equals("0")) {
 
-                        Toast.makeText(getApplicationContext(), "Error el regitrar el reporte ", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Error al regitrar el reporte ", Toast.LENGTH_LONG).show();
 
                     } else {
 
@@ -206,7 +203,6 @@ public class FailureReport extends AppCompatActivity implements Response.ErrorLi
             Toast.makeText(getApplicationContext(), "Ocurrio un error con el reporte", Toast.LENGTH_LONG).show();
 
         }
-
 //----------------------------------------------------------------------------------------------------------------------------------------------//
 
     }
