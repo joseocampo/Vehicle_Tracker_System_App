@@ -455,7 +455,7 @@ protected void onStart() {
         protected Void doInBackground(String... voids) {
             try{
                 String message = voids[0];
-                socket = new Socket("192.168.0.6",6000);
+                socket = new Socket("192.168.43.103",6000);
 
                 OutputStream os = socket.getOutputStream(); //Send the message to the server
                 OutputStreamWriter osw = new OutputStreamWriter(os);
