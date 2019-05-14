@@ -93,7 +93,6 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
         btnSatelital = (Button) findViewById(R.id.btnSatelital);
         finish_image = (ImageView) findViewById(R.id.finish_image);
 
-        //eventos para todos los componentes de la vista
         addEvents();
 
         Bundle bundle = getIntent().getExtras();
@@ -105,8 +104,6 @@ public class LocationView extends FragmentActivity implements OnMapReadyCallback
 
             vehicle = bundle.getString("vehiclePlaque");
 
-
-            //preguntar//Toast.makeText(getApplicationContext(), " usuario: " + userId + " LoanNumber: " + loanNumber+" plate: "+vehicle, Toast.LENGTH_LONG).show();
         }
 
         initTravel(); //the route is initialized
@@ -257,13 +254,11 @@ protected void onStart() {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-//                Intent settingsIntent = new Intent(LocationView.this, FailureReport.class);
-//                settingsIntent.putExtra("usuario", userId);
-//                settingsIntent.putExtra("name", userLoginName);
-//                settingsIntent.putExtra("surname", userLoginSurname);
-//                startActivity(settingsIntent);
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.content_main,new App_Help()).commit();
+               Intent settingsIntent = new Intent(LocationView.this, FailureReport.class);
+                settingsIntent.putExtra("usuario", userId);
+                settingsIntent.putExtra("name", userLoginName);
+                settingsIntent.putExtra("surname", userLoginSurname);
+                startActivity(settingsIntent);
 
 
             }
@@ -305,9 +300,9 @@ protected void onStart() {
         }
     }
 
-    private void saveStreet(String calle) {
+    private void saveStreet(String street) {
 
-        String url = new StringBuilder().append("http://vtsmsph.com/guardarCalle.php?user=tony").append("&route=").append(String.valueOf(loanNumber)).append("&calle=").append(calle).toString();
+        String url = new StringBuilder().append("http://vtsmsph.com/guardarCalle.php?user=tony").append("&route=").append(String.valueOf(loanNumber)).append("&calle=").append(street).toString();
         url.replace(" ", "%20");
 
         jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, this, this);
@@ -423,7 +418,7 @@ protected void onStart() {
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        //--revisar--//Toast.makeText(getApplicationContext(), "Ocurrio un error al solicitar el vehiculo" , Toast.LENGTH_LONG).show();
+
     }
 
     @Override

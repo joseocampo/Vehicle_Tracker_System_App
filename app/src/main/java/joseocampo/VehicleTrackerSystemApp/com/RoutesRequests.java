@@ -124,56 +124,6 @@ public class RoutesRequests extends AppCompatActivity implements Response.ErrorL
         addEventListeners();
     }
 
-
-    public void showLoans() {
-
-        LinearLayout.LayoutParams layoutParamsCards = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        layoutParamsCards.setMargins(10, 7, 10, 7);
-
-        LinearLayout.LayoutParams layoutParamstextView =
-                new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT);
-
-
-        for (int i = 0; i < myLoans.size(); i++) {
-
-            CardView cardView = new CardView(getApplicationContext());
-            cardView.setBackgroundColor(Color.parseColor("#FFFFFF"));
-            cardView.setLayoutParams(layoutParamsCards);
-
-            LinearLayout linearLayoutComponents = new LinearLayout(getApplicationContext());
-            linearLayoutComponents.setLayoutParams(layoutParamsCards);
-            linearLayoutComponents.setOrientation(LinearLayout.VERTICAL);
-
-            TextView textView = new TextView(getApplicationContext());
-            textView.setLayoutParams(layoutParamstextView);
-            textView.setTextColor(Color.BLACK);
-            textView.setPadding(5, 5, 5, 5);
-
-            textView.setText(myLoans.get(i).toString());
-
-            Button button = new Button(getApplicationContext());
-            button.setText("Iniciar Recorrido para el prestamo # " + myLoans.get(i).getConsecutive());
-            button.setBackgroundColor(Color.parseColor("#F5F5F5"));
-            button.setTextColor(Color.BLACK);
-            button.setOnClickListener(new ButtonsOnClickListener(getApplicationContext()));
-
-            linearLayoutComponents.addView(textView);
-            linearLayoutComponents.addView(button);
-
-            cardView.addView(linearLayoutComponents);
-
-        }
-    }
-
-
-    private void fillObjectsList() {
-        for (int i = 0; i < myLoans.size(); i++) {
-            loansItemView.add(new ExpandObjects(myLoans.get(i).toString(), "A1-02", R.drawable.ruta, R.drawable.iniciar));
-        }
-        Mensaje("Objetos: " + loansItemView.size());
-    }
-
     private void fillListView() {
         ArrayAdapter<ExpandObjects> adapter = new MyListAdapter();
         ListView list = (ListView) findViewById(R.id.loans_list_view);
@@ -286,7 +236,6 @@ public class RoutesRequests extends AppCompatActivity implements Response.ErrorL
                     }
                     i=0;
                 } else {
-
 
                 }
             }
